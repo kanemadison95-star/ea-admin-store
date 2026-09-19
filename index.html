@@ -10,432 +10,875 @@
 <meta property="og:description" content="Automated MT5 Expert Advisors. Lifetime access, unlimited accounts. Free Access available." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://ea-admin.com/" />
-<meta property="og:image" content="ea-admin-logo.png" />
+<meta property="og:image" content="/ea-admin-logo.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <style>
-  :root{
-    --bg:#070a0f; --grad1:#0d1320; --grad2:#0a0e16;
-    --glow1:rgba(34,211,238,.10); --glow2:rgba(224,169,27,.10);
-    --card:rgba(255,255,255,.05); --card-h:rgba(255,255,255,.09);
-    --line:rgba(255,255,255,.10);
-    --text:#f1f5fa; --muted:#9aa7b8;
-    --gold:#e0a91b; --cyan:#22d3ee;
-    --hot:#ff7a18; --new:#23c552; --danger:#ff5c5c;
-    --sheet-bg:#0e131b; --sheet-input:#070a0f;
-  }
-  html.light{
-    --bg:#f3f5f9; --grad1:#ffffff; --grad2:#eef1f6;
-    --glow1:rgba(34,211,238,.16); --glow2:rgba(224,169,27,.16);
-    --card:rgba(15,23,42,.04); --card-h:rgba(15,23,42,.07);
-    --line:rgba(15,23,42,.12);
-    --text:#10151d; --muted:#5a6675;
-    --sheet-bg:#ffffff; --sheet-input:#f3f5f9;
-  }
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-  html{min-height:100%;background:
-      radial-gradient(1200px 600px at 50% -10%, var(--glow1), transparent 60%),
-      radial-gradient(900px 500px at 50% 110%, var(--glow2), transparent 60%),
-      linear-gradient(180deg,var(--grad1),var(--grad2) 60%,var(--bg));
-    background-color:var(--bg);background-repeat:no-repeat;}
-  body{margin:0;min-height:100vh;color:var(--text);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,system-ui,sans-serif;
-    background:transparent;}
-  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important;}}
-  a{color:inherit;}
-  .wrap{max-width:1080px;margin:0 auto;padding:0 20px;}
-  img{max-width:100%;display:block;}
-  section{padding:64px 0;}
-  .center{text-align:center;}
-  .muted{color:var(--muted);}
-  .fade{animation:fade .6s ease both;}
-  @keyframes fade{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}
+:root{
+  --bg:#07090d; --bg2:#0b0e14; --card:#11151d; --card2:#161b25;
+  --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.14);
+  --txt:#f2f4f8; --txt2:#8b95a5; --gold:#d4a843; --gold2:#e9c369;
+  --cyan:#22d3ee; --green:#23c552; --red:#ff5c5c;
+  --sheet:#0d1119;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;min-height:100%;background:var(--bg);}
+body{margin:0;color:var(--txt);background:var(--bg);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,system-ui,sans-serif;}
+a{color:inherit;}
+img{max-width:100%;display:block;}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px;}
+section{padding:60px 0;}
+.center{text-align:center;}
+.muted{color:var(--txt2);}
+.gold{color:var(--gold);}
 
-  /* nav */
-  .nav{position:sticky;top:0;z-index:30;backdrop-filter:blur(14px);
-    background:rgba(7,10,15,.72);border-bottom:1px solid var(--line);}
-  html.light .nav{background:rgba(255,255,255,.75);}
-  .navrow{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:1080px;margin:0 auto;}
-  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;text-decoration:none;}
-  .brand img{width:34px;height:34px;border-radius:9px;}
-  .navlinks{display:flex;gap:26px;font-weight:600;font-size:14px;}
-  .navlinks a{text-decoration:none;color:var(--muted);}
-  .navlinks a:hover{color:var(--text);}
-  .navcta{display:flex;gap:10px;align-items:center;}
-  .iconbtn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);
-    background:var(--card);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;}
-  .iconbtn svg{width:17px;height:17px;}
-  .menubtn{display:none;}
-  @media (max-width:820px){
-    .navlinks{display:none;}
-    .menubtn{display:flex;}
-  }
+/* scroll reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1);}
+.reveal.in{opacity:1;transform:none;}
+.reveal.d1{transition-delay:.08s;}
+.reveal.d2{transition-delay:.16s;}
+.reveal.d3{transition-delay:.24s;}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;}.reveal{opacity:1;transform:none;}}
 
-  /* mobile menu */
-  .mmenu{position:fixed;inset:0;background:var(--bg);z-index:50;display:none;flex-direction:column;padding:20px;}
-  .mmenu.show{display:flex;}
-  .mmenu a{padding:16px 6px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--text);font-weight:700;font-size:16px;}
-  .mmclose{align-self:flex-end;}
+/* nav */
+nav{position:sticky;top:0;z-index:30;backdrop-filter:blur(14px);background:rgba(7,9,13,.75);border-bottom:1px solid var(--line);}
+.nav-in{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;max-width:1080px;margin:0 auto;}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;}
+.logo img{width:32px;height:32px;border-radius:8px;}
+.lang-wrap{position:relative;}
+.lang{font-size:12px;color:var(--txt2);border:1px solid var(--line2);padding:9px 14px;border-radius:20px;letter-spacing:.06em;display:flex;align-items:center;gap:7px;cursor:pointer;background:transparent;font-family:inherit;}
+.lang-menu{position:absolute;top:calc(100% + 10px);right:0;width:260px;max-height:360px;background:var(--sheet);
+  border:1px solid var(--line2);border-radius:16px;padding:14px;display:none;flex-direction:column;z-index:40;
+  box-shadow:0 20px 50px rgba(0,0,0,.5);}
+.lang-menu.show{display:flex;}
+.lang-search{display:flex;align-items:center;gap:8px;border:1px solid var(--line2);border-radius:10px;padding:9px 12px;margin-bottom:8px;}
+.lang-search svg{width:15px;height:15px;color:var(--txt2);flex:none;}
+.lang-search input{border:none;background:none;color:var(--txt);outline:none;font-size:13px;width:100%;font-family:inherit;}
+.lang-list{overflow-y:auto;}
+.lang-opt{padding:10px 6px;font-size:13.5px;cursor:pointer;border-radius:8px;display:flex;justify-content:space-between;}
+.lang-opt:hover{background:var(--card2);}
+.lang-opt.sel{color:var(--gold);}
 
-  /* buttons */
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    padding:14px 22px;border-radius:12px;font-weight:800;font-size:14.5px;text-decoration:none;
-    border:1px solid var(--line);cursor:pointer;transition:transform .12s,background .15s;}
-  .btn:hover{transform:translateY(-2px);}
-  .btn-gold{background:linear-gradient(135deg,var(--gold),#c6890f);color:#12100a;border:none;}
-  .btn-cyan{background:linear-gradient(135deg,var(--cyan),#0891b2);color:#04141a;border:none;}
-  .btn-line{background:var(--card);color:var(--text);}
-  .btn-line:hover{background:var(--card-h);}
-  .btn-block{width:100%;}
-  .btnrow{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:12px;
+  font-weight:800;font-size:14.5px;text-decoration:none;border:none;cursor:pointer;font-family:inherit;
+  transition:transform .12s ease,filter .15s ease;}
+.btn:hover{transform:translateY(-2px);}
+.btn-gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#151004;}
+.btn-cyan{background:linear-gradient(135deg,var(--cyan),#0891b2);color:#04141a;}
+.btn-green{background:linear-gradient(135deg,#34d976,var(--green));color:#04170a;}
+.btn-ghost{background:var(--card2);color:var(--txt);border:1px solid var(--line2);}
+.btn-tg{background:#29a9eb;color:#fff;}
+.btn-wa{background:#25d366;color:#04170a;}
+.btn-block{width:100%;}
+.btnrow{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
 
-  /* hero */
-  .hero{padding:72px 0 40px;text-align:center;}
-  .kicker{display:inline-block;padding:6px 14px;border-radius:999px;border:1px solid var(--line);
-    background:var(--card);font-size:12.5px;font-weight:700;color:var(--gold);letter-spacing:.5px;margin-bottom:20px;}
-  h1.headline{font-size:clamp(30px,5.4vw,52px);font-weight:900;letter-spacing:-1px;line-height:1.08;margin:0 0 18px;}
-  h1.headline .g{background:linear-gradient(135deg,var(--gold),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent;}
-  .herosub{max-width:620px;margin:0 auto 30px;color:var(--muted);font-size:16.5px;line-height:1.65;}
-  .heroimg{max-width:220px;margin:0 auto 30px;border-radius:20px;overflow:hidden;border:1px solid var(--line);}
+/* hero */
+.hero{padding:64px 0 20px;text-align:center;position:relative;}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:7px 15px;border-radius:999px;border:1px solid var(--line2);
+  background:var(--card2);font-size:12.5px;font-weight:700;color:var(--txt2);margin-bottom:22px;}
+.pill .dot{width:7px;height:7px;border-radius:50%;background:var(--green);}
+h1.headline{font-size:clamp(30px,5.4vw,50px);font-weight:900;letter-spacing:-1px;line-height:1.08;margin:0 0 16px;}
+.herosub{max-width:620px;margin:0 auto 14px;color:var(--txt2);font-size:16.5px;line-height:1.65;}
+.by{font-size:12.5px;color:var(--txt2);margin:0 0 26px;}
+h2.h2{font-size:clamp(24px,3.6vw,32px);font-weight:900;letter-spacing:-.5px;margin:0 0 10px;}
+.h2sub{color:var(--txt2);font-size:15px;max-width:580px;margin:0 auto 40px;line-height:1.6;}
 
-  .h2{font-size:clamp(24px,3.6vw,32px);font-weight:900;letter-spacing:-.5px;margin:0 0 10px;}
-  .h2sub{color:var(--muted);font-size:15px;max-width:560px;margin:0 auto 40px;line-height:1.6;}
+/* generic feature/step card grid */
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media (max-width:900px){.grid4{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:560px){.grid4{grid-template-columns:1fr;}.grid2{grid-template-columns:1fr;}}
+.feat{border:1px solid var(--line);background:var(--card);border-radius:18px;padding:24px 22px;transition:border-color .2s ease,transform .2s ease;}
+.feat-ic{width:44px;height:44px;border-radius:12px;background:rgba(212,168,67,.1);border:1px solid var(--line2);
+  display:flex;align-items:center;justify-content:center;margin-bottom:16px;color:var(--gold);}
+.feat-ic svg{width:20px;height:20px;}
+.feat h3{margin:0 0 8px;font-size:15px;font-weight:800;}
+.feat p{margin:0;font-size:13.5px;color:var(--txt2);line-height:1.6;}
 
-  /* pricing cards */
-  .cards{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
-  @media (max-width:760px){.cards{grid-template-columns:1fr;}}
-  .card{border:1px solid var(--line);background:var(--card);border-radius:22px;padding:30px 26px;position:relative;}
-  .card.hl{border-color:rgba(224,169,27,.5);background:linear-gradient(180deg,rgba(224,169,27,.08),var(--card));}
-  .ctag{position:absolute;top:-12px;right:24px;background:var(--gold);color:#12100a;font-size:11px;font-weight:800;
-    padding:5px 12px;border-radius:999px;letter-spacing:.5px;}
-  .cname{font-size:22px;font-weight:900;margin:0 0 4px;}
-  .cprice{font-size:38px;font-weight:900;margin:10px 0 2px;}
-  .cprice span{font-size:15px;font-weight:700;color:var(--muted);}
-  .cmeta{color:var(--muted);font-size:13.5px;margin-bottom:20px;}
-  .cfeat{list-style:none;padding:0;margin:0 0 24px;}
-  .cfeat li{display:flex;gap:10px;align-items:flex-start;padding:8px 0;font-size:14px;line-height:1.5;}
-  .cfeat svg{width:17px;height:17px;flex:0 0 auto;margin-top:2px;color:var(--cyan);}
-  .cdisc{font-size:11.5px;color:var(--muted);margin-top:14px;line-height:1.5;}
+.step{display:flex;gap:16px;margin-bottom:26px;transition:transform .2s ease;}
+.step-num{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--gold2),var(--gold));
+  color:#151004;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;flex:none;}
+.step h3{margin:0 0 6px;font-size:15.5px;font-weight:800;}
+.step p{margin:0;font-size:13.5px;color:var(--txt2);line-height:1.6;}
 
-  /* comparison table */
-  .cmp{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:10px;}
-  .cmp th,.cmp td{padding:13px 14px;border-bottom:1px solid var(--line);text-align:left;}
-  .cmp th{color:var(--muted);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.4px;}
-  .cmp td.c{text-align:center;}
-  .cmp tr:last-child td{border-bottom:none;}
-  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--card);padding:6px 10px;}
-  .yes{color:var(--new);}
+/* EA tag pills to mark which content applies to which EA */
+.eatag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.4px;padding:3px 9px;border-radius:6px;margin-right:6px;margin-bottom:8px;}
+.eatag-k{background:rgba(34,211,238,.14);color:var(--cyan);}
+.eatag-a{background:rgba(212,168,67,.14);color:var(--gold);}
 
-  /* how it works / install steps */
-  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
-  @media (max-width:900px){.steps{grid-template-columns:repeat(2,1fr);}}
-  @media (max-width:560px){.steps{grid-template-columns:1fr;}}
-  .stepcard{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:20px;}
-  .stepnum{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--gold),var(--cyan));
-    color:#0a0e16;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;margin-bottom:12px;}
-  .stepcard h4{margin:0 0 6px;font-size:14.5px;font-weight:800;}
-  .stepcard p{margin:0;font-size:13px;color:var(--muted);line-height:1.55;}
+/* account setup table */
+.setup-card{border:1px solid var(--line);background:var(--card);border-radius:18px;padding:26px 24px;max-width:520px;margin:0 auto;}
+.setup-title{display:flex;align-items:center;gap:10px;font-weight:800;font-size:16px;margin-bottom:18px;}
+.setup-row{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px;}
+.setup-row:last-of-type{border-bottom:none;}
+.setup-row .l{color:var(--txt2);}
+.setup-row .v{font-weight:800;}
+.setup-risk{margin-top:16px;padding:14px 16px;border-radius:12px;background:var(--card2);color:var(--txt2);font-size:12.5px;line-height:1.7;}
 
-  /* free access */
-  .fa-box{border:1px solid var(--line);background:var(--card);border-radius:20px;padding:26px;margin-bottom:16px;}
-  .fa-box h3{margin:0 0 8px;font-size:16.5px;font-weight:800;display:flex;align-items:center;gap:10px;}
-  .fa-num{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--line);
-    display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:800;color:var(--gold);flex:0 0 auto;}
-  .fa-box p{margin:0 0 12px;font-size:14px;color:var(--muted);line-height:1.65;}
-  .copybox{border:1px dashed var(--line);background:var(--sheet-input);border-radius:14px;padding:16px;
-    font-size:13.5px;line-height:1.7;color:var(--text);white-space:pre-wrap;font-family:ui-monospace,Menlo,Consolas,monospace;margin-bottom:10px;}
-  .mini{font-size:12.5px;color:var(--muted);line-height:1.6;}
-  .mini b{color:var(--text);}
+/* pricing cards */
+.price-wrap{display:flex;flex-direction:column;gap:20px;max-width:420px;margin:0 auto;}
+.price-card{border:1px solid var(--line);background:var(--card);border-radius:22px;padding:28px 26px;position:relative;text-align:left;}
+.price-card.free{border-color:rgba(35,197,82,.4);background:linear-gradient(180deg,rgba(35,197,82,.07),var(--card));}
+.price-card.kairox{border-color:rgba(34,211,238,.4);background:linear-gradient(180deg,rgba(34,211,238,.06),var(--card));}
+.price-card.agprime{border-color:rgba(212,168,67,.5);background:linear-gradient(180deg,rgba(212,168,67,.08),var(--card));}
+.eyebrow{display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-bottom:10px;}
+.eyebrow .dot{width:7px;height:7px;border-radius:50%;}
+.dot-green{background:var(--green);}
+.dot-cyan{background:var(--cyan);}
+.dot-gold{background:var(--gold);}
+.price-name{font-size:21px;font-weight:900;margin:0 0 2px;}
+.price-amt{font-size:36px;font-weight:900;margin:8px 0 2px;}
+.price-amt span{font-size:14px;font-weight:700;color:var(--txt2);}
+.price-meta{color:var(--txt2);font-size:12.5px;margin-bottom:16px;}
+.price-list{list-style:none;padding:0;margin:0 0 20px;}
+.price-list li{display:flex;gap:9px;align-items:flex-start;padding:7px 0;font-size:13.5px;line-height:1.5;}
+.price-list li svg{width:16px;height:16px;flex:none;margin-top:2px;}
+.price-warn{background:rgba(255,92,92,.1);border:1px solid rgba(255,92,92,.25);color:#ffb3b3;border-radius:10px;
+  padding:11px 13px;font-size:12px;line-height:1.6;margin-bottom:16px;}
 
-  /* faq */
-  .faq{max-width:760px;margin:0 auto;}
-  .qitem{border:1px solid var(--line);background:var(--card);border-radius:14px;margin-bottom:10px;overflow:hidden;}
-  .qhead{width:100%;text-align:left;padding:18px 20px;background:none;border:none;color:var(--text);
-    font-weight:700;font-size:14.5px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;}
-  .qhead svg{width:16px;height:16px;flex:0 0 auto;transition:transform .2s;color:var(--muted);}
-  .qitem.open .qhead svg{transform:rotate(180deg);}
-  .qbody{max-height:0;overflow:hidden;transition:max-height .25s ease;}
-  .qitem.open .qbody{max-height:400px;}
-  .qbody p{margin:0;padding:0 20px 18px;font-size:13.5px;color:var(--muted);line-height:1.65;}
+/* purchase modal */
+.modal-scrim{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:60;display:none;align-items:flex-end;justify-content:center;}
+@media (min-width:640px){.modal-scrim{align-items:center;}}
+.modal-scrim.show{display:flex;}
+.modal{width:100%;max-width:460px;background:var(--sheet);border:1px solid var(--line2);border-radius:22px 22px 0 0;
+  padding:26px 22px calc(26px + env(safe-area-inset-bottom));max-height:88vh;overflow-y:auto;}
+@media (min-width:640px){.modal{border-radius:22px;}}
+.modal-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
+.modal-head h3{margin:0;font-size:19px;font-weight:900;}
+.modal-close{width:30px;height:30px;border-radius:50%;border:1px solid var(--line2);background:var(--card2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none;}
+.modal-close svg{width:14px;height:14px;}
+.modal-sub{color:var(--txt2);font-size:13px;margin:0 0 18px;}
+.modal-row{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--line);font-size:14px;}
+.modal-row .l{color:var(--txt2);}
+.modal-row .v{font-weight:800;color:var(--gold);}
+.net-tabs{display:flex;gap:8px;margin:16px 0 12px;}
+.net-tab{flex:1;padding:10px 6px;border-radius:10px;border:1px solid var(--line2);background:var(--card2);
+  color:var(--txt2);font-size:12.5px;font-weight:700;text-align:center;cursor:pointer;font-family:inherit;}
+.net-tab.active{background:rgba(212,168,67,.15);border-color:var(--gold);color:var(--gold);}
+.addr-label{font-size:11.5px;color:var(--txt2);margin:12px 0 6px;letter-spacing:.4px;}
+.addr-box{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--card2);
+  border:1px solid var(--line2);border-radius:12px;padding:14px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;word-break:break-all;}
+.addr-copy{flex:none;width:34px;height:34px;border-radius:8px;background:var(--card);border:1px solid var(--line2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.addr-copy svg{width:15px;height:15px;}
+.modal-help{font-size:12px;color:var(--txt2);line-height:1.7;margin:16px 0;}
+.modal-help b{color:var(--txt);}
+.modal-btns{display:flex;flex-direction:column;gap:10px;margin-top:6px;}
 
-  .disclaimer{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:22px 24px;
-    color:var(--muted);font-size:12.5px;line-height:1.75;}
-  .disclaimer b{color:var(--text);}
+/* download cards + setup note */
+.dl-card{border:1px solid var(--line);background:var(--card);border-radius:18px;padding:24px 22px;margin-bottom:16px;}
+.dl-head{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
+.dl-ic{width:44px;height:44px;border-radius:12px;background:var(--card2);border:1px solid var(--line2);
+  display:flex;align-items:center;justify-content:center;color:var(--gold);flex:none;}
+.dl-ic svg{width:19px;height:19px;}
+.dl-head h4{margin:0;font-size:15px;font-weight:800;}
+.dl-head span{font-size:12px;color:var(--txt2);font-family:ui-monospace,Menlo,Consolas,monospace;}
+.dl-note{display:flex;align-items:center;gap:8px;background:var(--card2);border-radius:10px;padding:11px 14px;
+  font-size:12.5px;color:var(--txt2);margin-bottom:14px;}
+.dl-help{text-align:center;font-size:12.5px;color:var(--txt2);margin-top:6px;}
+.dl-help a{color:var(--gold);font-weight:700;text-decoration:none;}
+.setup-note{border:1px solid rgba(212,168,67,.3);background:rgba(212,168,67,.06);border-radius:16px;padding:20px 22px;margin-top:8px;}
+.setup-note h4{margin:0 0 8px;font-size:14px;font-weight:800;color:var(--gold);}
+.setup-note p{margin:0 0 12px;font-size:13px;color:var(--txt2);line-height:1.65;}
+.urlbox{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--card2);
+  border:1px solid var(--line2);border-radius:10px;padding:12px 14px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;margin-bottom:12px;}
+.urlbox button{flex:none;display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;background:var(--card);
+  border:1px solid var(--line2);color:var(--txt);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;}
+.urlbox svg{width:13px;height:13px;}
 
-  /* footer */
-  footer{border-top:1px solid var(--line);padding:48px 0 30px;margin-top:20px;}
-  .fgrid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:30px;margin-bottom:34px;}
-  @media (max-width:760px){.fgrid{grid-template-columns:1fr 1fr;}}
-  .fcol h5{font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin:0 0 14px;}
-  .fcol a{display:block;text-decoration:none;color:var(--text);font-size:13.5px;margin-bottom:10px;opacity:.85;}
-  .fcol a:hover{opacity:1;}
-  .fbottom{border-top:1px solid var(--line);padding-top:22px;display:flex;flex-wrap:wrap;gap:14px;
-    justify-content:space-between;align-items:center;color:var(--muted);font-size:12.5px;}
-  .fsoc{display:flex;gap:10px;}
-  .fsoc a{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--card);
-    display:flex;align-items:center;justify-content:center;}
-  .fsoc svg{width:17px;height:17px;}
+/* install guide */
+.inst-section{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:22px 22px;margin-bottom:14px;}
+.inst-section h4{margin:0 0 10px;font-size:15px;font-weight:800;display:flex;align-items:center;gap:10px;}
+.inst-num{width:26px;height:26px;border-radius:8px;background:var(--card2);border:1px solid var(--line2);
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--gold);flex:none;}
+.inst-section p,.inst-section li{font-size:13.5px;color:var(--txt2);line-height:1.7;}
+.inst-section ul,.inst-section ol{margin:8px 0 0;padding-left:20px;}
+.checklist{list-style:none;padding:0;margin:0;}
+.checklist li{padding:8px 0;font-size:13.5px;color:var(--txt2);display:flex;gap:10px;align-items:flex-start;border-bottom:1px solid var(--line);}
+.checklist li:last-child{border-bottom:none;}
+.checklist svg{width:16px;height:16px;flex:none;margin-top:2px;color:var(--green);}
 
-  /* welcome popup */
-  .pop-scrim{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:60;display:none;align-items:center;justify-content:center;padding:20px;}
-  .pop-scrim.show{display:flex;}
-  .pop{max-width:440px;width:100%;background:var(--sheet-bg);border:1px solid var(--line);border-radius:22px;
-    padding:30px 26px;position:relative;animation:fade .3s ease both;}
-  .pop-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;border:1px solid var(--line);
-    background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;}
-  .pop-close svg{width:15px;height:15px;}
-  .pop h3{margin:6px 0 10px;font-size:20px;font-weight:900;}
-  .pop p{margin:0 0 12px;font-size:13.5px;color:var(--muted);line-height:1.6;}
-  .pop ul{margin:0 0 18px;padding-left:20px;font-size:13.5px;color:var(--muted);line-height:1.8;}
+/* faq */
+.faq-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:24px;}
+.faq-tab{padding:9px 16px;border-radius:999px;background:var(--card2);color:var(--txt2);border:1px solid var(--line2);
+  font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;}
+.faq-tab.active{background:rgba(212,168,67,.15);border-color:var(--gold);color:var(--gold);}
+.faq-grp{display:none;max-width:760px;margin:0 auto;}
+.faq-grp.active{display:block;}
+.faq-item{border:1px solid var(--line);background:var(--card);border-radius:14px;margin-bottom:10px;overflow:hidden;}
+.faq-q{width:100%;text-align:left;padding:17px 19px;background:none;border:none;color:var(--txt);font-weight:700;
+  font-size:14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;font-family:inherit;}
+.faq-q svg{width:16px;height:16px;flex:none;stroke:var(--txt2);transition:transform .25s ease;}
+.faq-item.open .faq-q svg{transform:rotate(180deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.faq-a p{margin:0;padding:0 19px 17px;font-size:13.5px;color:var(--txt2);line-height:1.65;}
+
+.disclaimer{border:1px solid var(--line);background:var(--card);border-radius:16px;padding:22px 24px;color:var(--txt2);font-size:12.5px;line-height:1.75;}
+.disclaimer b{color:var(--txt);}
+
+footer{border-top:1px solid var(--line);padding:46px 0 28px;margin-top:16px;}
+.fgrid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:28px;margin-bottom:32px;}
+@media (max-width:760px){.fgrid{grid-template-columns:1fr 1fr;}}
+.fcol h5{font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--txt2);margin:0 0 14px;}
+.fcol a{display:block;text-decoration:none;color:var(--txt);font-size:13.5px;margin-bottom:10px;opacity:.85;}
+.fcol a:hover{opacity:1;}
+.fbottom{border-top:1px solid var(--line);padding-top:20px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;color:var(--txt2);font-size:12.5px;}
+.fsoc{display:flex;gap:10px;}
+.fsoc a{width:38px;height:38px;border-radius:10px;border:1px solid var(--line2);background:var(--card2);
+  display:flex;align-items:center;justify-content:center;transition:transform .18s ease,border-color .18s ease;}
+.fsoc a:hover{transform:translateY(-2px);}
+.fsoc svg{width:17px;height:17px;}
+
+.pop-scrim{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:65;display:none;align-items:center;justify-content:center;padding:20px;}
+.pop-scrim.show{display:flex;}
+.pop{max-width:440px;width:100%;background:var(--sheet);border:1px solid var(--line2);border-radius:22px;padding:30px 26px;position:relative;}
+.pop-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;border:1px solid var(--line2);
+  background:var(--card2);display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.pop-close svg{width:15px;height:15px;}
+.pop h3{margin:6px 0 10px;font-size:20px;font-weight:900;}
+.pop p{margin:0 0 12px;font-size:13.5px;color:var(--txt2);line-height:1.6;}
+.pop ul{margin:0 0 18px;padding-left:20px;font-size:13.5px;color:var(--txt2);line-height:1.8;}
 </style>
 </head>
 <body>
 
-<nav class="nav">
-  <div class="navrow">
-    <a class="brand" href="#top">
-  <img src="ea-admin-logo.png" alt="EA Admin logo" />
-  <span class="notranslate">EA Admin</span>
-</a>
-    <div class="navlinks">
-      <a href="#kairox">KairoX</a>
-      <a href="#agprime">AG Prime</a>
-      <a href="#free-access">Free Access</a>
-      <a href="#how">How It Works</a>
-      <a href="#faq">FAQ</a>
+<nav>
+  <div class="nav-in">
+    <div class="logo">
+      <img src="/ea-admin-logo.png" alt="EA Admin logo" />
+      <span class="notranslate">EA Admin</span>
     </div>
-    <div class="navcta">
-      <button class="iconbtn" id="themeBtn" onclick="toggleTheme()" title="Light / Dark">
-        <svg id="iconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-        <svg id="iconSun" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    <div class="lang-wrap">
+      <button class="lang" id="langBtn" onclick="toggleLang()">
+        <span id="langCurrent">ENGLISH</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" style="width:13px;height:13px;"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
-      <a class="btn btn-line" href="https://t.me/eaadminofficial" target="_blank" rel="noopener" style="padding:10px 16px;font-size:13px;">Contact</a>
-      <button class="iconbtn menubtn" onclick="openMenu()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      </button>
+      <div class="lang-menu" id="langMenu">
+        <div class="lang-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4" stroke-linecap="round"/></svg>
+          <input type="text" id="langSearch" placeholder="Search..." oninput="filterLang(this.value)" autocomplete="off">
+        </div>
+        <div class="lang-list" id="langList"></div>
+      </div>
     </div>
   </div>
 </nav>
 
-<div class="mmenu" id="mmenu">
-  <button class="iconbtn mmclose" onclick="closeMenu()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
-  </button>
-  <a href="#kairox" onclick="closeMenu()">KairoX</a>
-  <a href="#agprime" onclick="closeMenu()">AG Prime</a>
-  <a href="#free-access" onclick="closeMenu()">Free Access</a>
-  <a href="#how" onclick="closeMenu()">How It Works</a>
-  <a href="#install" onclick="closeMenu()">Installation</a>
-  <a href="#license" onclick="closeMenu()">License</a>
-  <a href="#faq" onclick="closeMenu()">FAQ</a>
-  <a href="https://ea-adminlicense.xyz" target="_blank" rel="noopener" onclick="closeMenu()">License Portal ↗</a>
-</div>
-
-<div id="top"></div>
-<div class="wrap">
-
-  <!-- HERO -->
-  <div class="hero fade">
-    <div class="kicker notranslate">EA ADMIN</div>
-    <h1 class="headline">Automated Trading.<br/>Built for MT5. <span class="g">Powered by EA Admin.</span></h1>
-    <p class="herosub">Explore <b>KairoX</b> and <b>AG Prime</b> — automated MT5 Expert Advisors built for active market participation, structured trade management, and configurable trading control.</p>
-    <div class="btnrow">
-      <a class="btn btn-gold" href="#kairox">Explore KairoX</a>
-      <a class="btn btn-cyan" href="#agprime">Explore AG Prime</a>
-      <a class="btn btn-line" href="#free-access">Free Access</a>
-      <a class="btn btn-line" href="https://t.me/eaadminofficial" target="_blank" rel="noopener">Contact EA Admin</a>
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="pill reveal"><span class="dot"></span> <span data-i18n="badge">MT5 Expert Advisors · KairoX &amp; AG Prime</span></div>
+    <h1 class="headline reveal d1">Automated Trading.<br/><span class="gold" data-i18n="hlSpan">Built for MT5. Powered by EA Admin.</span></h1>
+    <p class="herosub reveal d2" data-i18n="herosub">Explore KairoX and AG Prime — automated MT5 Expert Advisors built for active market participation, structured trade management, and configurable trading control.</p>
+    <p class="by reveal d2" data-i18n="by">EA Admin — MADSON EA Admin</p>
+    <div class="btnrow reveal d3">
+      <a class="btn btn-cyan" href="#kairox" data-i18n="btnExploreK">Explore KairoX</a>
+      <a class="btn btn-gold" href="#agprime" data-i18n="btnExploreA">Explore AG Prime</a>
+      <a class="btn btn-green" href="#free-access" data-i18n="btnFree">Free Access</a>
+      <a class="btn btn-ghost" href="https://t.me/eaadmin0" target="_blank" rel="noopener" data-i18n="btnContact">Contact EA Admin</a>
     </div>
   </div>
+</header>
 
-  <!-- PRICING -->
-  <section id="pricing">
-    <div class="center"><div class="h2">Choose Your EA</div>
-    <p class="h2sub muted">Both products are lifetime, one-time purchases — no monthly fees, no subscriptions, unlimited eligible MT5 accounts.</p></div>
+<!-- WHAT YOU NEED -->
+<section id="requirements">
+  <div class="wrap">
+    <div class="center reveal">
+      <h2 class="h2" data-i18n="reqTitle">What you need to run it</h2>
+      <p class="h2sub" data-i18n="reqSub">The EA runs on a computer or server — your phone is for monitoring.</p>
+    </div>
+    <div class="grid2">
+      <div class="feat reveal d1">
+        <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <h3 data-i18n="reqWinT">Windows PC or VPS</h3>
+        <p data-i18n="reqWinD">KairoX and AG Prime run inside MT5 on a Windows computer, or on a VPS (a server that stays on 24/5). A VPS is recommended so the bot keeps trading even when your computer is off.</p>
+      </div>
+      <div class="feat reveal d2">
+        <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></div>
+        <h3 data-i18n="reqPhoneT">Phone for monitoring</h3>
+        <p data-i18n="reqPhoneD">Use the MT5 mobile app on your phone to watch your account — open trades, balance, and how much the bot has made. The bot itself cannot run on a phone, only be monitored from one.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <div class="cards">
-      <div class="card" id="kairox">
-        <div class="cname notranslate">KairoX</div>
-        <div class="cmeta">MetaTrader 5 · Automated Execution</div>
-        <div class="cprice">$150 <span>/ lifetime</span></div>
-        <div class="cmeta">Unlimited MT5 accounts</div>
-        <p class="muted" style="font-size:13.5px;line-height:1.6;margin:0 0 18px;">The more aggressive EA Admin trading solution — built for traders who want active market participation, momentum-focused automated execution, basket-level trade management, and adaptive trade handling.</p>
-        <ul class="cfeat">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> One-time payment — no recurring fees</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> Automated, momentum-focused execution</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> Basket-level trade management</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> License activation &amp; setup guidance included</li>
+<!-- HOW IT TRADES -->
+<section id="how">
+  <div class="wrap">
+    <div class="center reveal">
+      <h2 class="h2"><span data-i18n="howTitle">How</span> <span class="gold notranslate">KairoX &amp; AG Prime</span> <span data-i18n="howTitle2">trade</span></h2>
+      <p class="h2sub" data-i18n="howSub">One repeating cycle. No prediction. Pure structure.</p>
+    </div>
+    <div style="max-width:640px;margin:0 auto;">
+      <div class="step reveal d1">
+        <div class="step-num">01</div>
+        <div>
+          <h3 data-i18n="s1t">Place the straddle</h3>
+          <p data-i18n="s1dA"><span class="eatag eatag-a">AG PRIME</span>When flat and inside the trading window, the EA places a BuyStop above price and a SellStop below price at the same time.</p>
+          <p data-i18n="s1dK" style="margin-top:8px;"><span class="eatag eatag-k">KAIROX</span>When flat and inside the trading window, the EA places a Buy Limit below price and a Sell Limit above price at the same time.</p>
+        </div>
+      </div>
+      <div class="step reveal d1">
+        <div class="step-num">02</div>
+        <div><h3 data-i18n="s2t">One side triggers, the other is cancelled</h3>
+        <p data-i18n="s2d">Whichever order fills first wins. The opposite pending order is removed instantly, so you never end up locked between two opposing positions.</p></div>
+      </div>
+      <div class="step reveal d2">
+        <div class="step-num">03</div>
+        <div><h3 data-i18n="s3t">The winning side runs recovery</h3>
+        <p data-i18n="s3d">If price moves against the open side, the EA adds positions on an adaptive schedule with controlled sizing. A strict maximum number of trades is always enforced.</p></div>
+      </div>
+      <div class="step reveal d2">
+        <div class="step-num">04</div>
+        <div><h3 data-i18n="s4t">The basket closes at one take profit</h3>
+        <p data-i18n="s4d">Take profit is calculated from the basket as a whole and recalculated as it grows. When it hits, every position on that side closes together.</p></div>
+      </div>
+      <div class="step reveal d3">
+        <div class="step-num">05</div>
+        <div><h3 data-i18n="s5t">Recalculate and repeat</h3>
+        <p data-i18n="s5d">After a basket closes, the cycle starts over: a fresh straddle is placed around the new market price.</p></div>
+      </div>
+      <div class="step reveal d3">
+        <div class="step-num">06</div>
+        <div><h3 data-i18n="s6t">Pause window protects rollover</h3>
+        <p data-i18n="s6d">During the daily broker rollover window the EA pauses new entries so the spread spike does not cause false triggers. Open baskets stay managed and close normally.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EVERYTHING INSIDE -->
+<section id="features">
+  <div class="wrap">
+    <div class="center reveal">
+      <h2 class="h2"><span data-i18n="featTitle">Everything inside</span> <span class="gold notranslate">KairoX &amp; AG Prime</span></h2>
+      <p class="h2sub" data-i18n="featSub">Built around discipline, not hype.</p>
+    </div>
+    <div class="grid4">
+      <div class="feat reveal d1">
+        <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 8l-4 4 4 4M17 8l4 4-4 4"/></svg></div>
+        <h3 data-i18n="f1t">Straddle entry</h3>
+        <p data-i18n="f1d">A pending order above and below the market at once. The first side that triggers wins; the other is cancelled instantly.</p>
+      </div>
+      <div class="feat reveal d1">
+        <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+        <h3 data-i18n="f2t">Adaptive grid recovery</h3>
+        <p data-i18n="f2d">When price moves against the open side, the EA adds positions at adaptive distances with controlled sizing.</p>
+      </div>
+      <div class="feat reveal d2">
+        <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/></svg></div>
+        <h3 data-i18n="f7t">Trend Detection</h3>
+        <p data-i18n="f7d">When a trend is confirmed as buys or sells, the EAs trade with the trend — deactivating the straddle orders until conditions call for one again.</p>
+      </div>
+      <div class="feat reveal d2">
+        <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <h3 data-i18n="f3t">Single basket take profit</h3>
+        <p data-i18n="f3d">Take profit is set from the basket breakeven and recalculated as the grid expands. When it hits, the whole side closes together.</p>
+      </div>
+      <div class="feat reveal d3">
+        <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <h3 data-i18n="f4t">Rollover pause window</h3>
+        <p data-i18n="f4d">New entries pause automatically during the daily broker rollover window, so the session spread spike does not cause false breakouts. Configurable in settings.</p>
+      </div>
+      <div class="feat reveal d3">
+        <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg></div>
+        <h3 data-i18n="f5t">Built-in safety presets</h3>
+        <p data-i18n="f5d">Safe presets are already configured inside the EA out of the box. To increase risk, you simply increase the lot size.</p>
+      </div>
+      <div class="feat reveal d3">
+        <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3 data-i18n="f8t">Built-in News System</h3>
+        <p data-i18n="f8d">The EAs detect and pause before or after high-impact news.</p>
+      </div>
+      <div class="feat reveal d3">
+        <div class="feat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+        <h3 data-i18n="f6t">License key activation</h3>
+        <p data-i18n="f6d">Each license key is bound to one MT5 account number. Run on multiple accounts by activating a key for each one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RECOMMENDED ACCOUNT SETUP -->
+<section id="account-setup">
+  <div class="wrap">
+    <div class="center reveal">
+      <h2 class="h2" data-i18n="setupRecT2">Recommended account setup</h2>
+    </div>
+    <div class="setup-card reveal">
+      <div class="setup-title"><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" width="18" height="18"><path d="M3 17l6-6 4 4 8-8"/></svg> <span data-i18n="setupRecT">Recommended account setup</span></div>
+      <div class="setup-row"><span class="l" data-i18n="setupL1">Account type</span><span class="v" data-i18n="setupV1">Cent account</span></div>
+      <div class="setup-row"><span class="l" data-i18n="setupL2">Instrument</span><span class="v notranslate">XAUUSD</span></div>
+      <div class="setup-row"><span class="l" data-i18n="setupL3">Minimum deposit</span><span class="v" data-i18n="setupV3">$100 USD (10,000 USC)</span></div>
+      <div class="setup-row"><span class="l" data-i18n="setupL4">Recommended deposit</span><span class="v" data-i18n="setupV4">50,000 USC or more</span></div>
+      <div class="setup-risk" data-i18n="setupRisk">Cent accounts let you trade XAUUSD without large capital. 10,000 USC is only the minimum to start and carries high risk, as margin can be affected quickly during volatility. For better stability and risk control, 50,000 USC or more is strongly recommended, giving more room to withstand market fluctuations.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="center reveal">
+      <h2 class="h2" data-i18n="priceTitle">Get KairoX &amp; AG Prime</h2>
+      <p class="h2sub" data-i18n="priceSub">Choose how you want to get started.</p>
+    </div>
+
+    <div class="price-wrap">
+      <!-- FREE ACCESS - FIRST -->
+      <div class="price-card free reveal">
+        <div class="eyebrow" style="color:var(--green);"><span class="dot dot-green"></span> <span data-i18n="freeEyebrow">FREE OPTION</span></div>
+        <div class="price-name" data-i18n="freeName">Free Access</div>
+        <div class="price-amt" style="color:var(--green);" data-i18n="freeAmt">FREE</div>
+        <div class="price-meta" data-i18n="freeMeta">Via our official Vantage IB registration · 1 account only</div>
+        <ul class="price-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg> <span data-i18n="freeS1">Register using our official Vantage referral link</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg> <span data-i18n="freeS2">Complete full verification (KYC)</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg> <span data-i18n="freeS3">Open an MT5 Cent trading account</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg> <span data-i18n="freeS4">Submit your MT5 account number for review</span></li>
         </ul>
-        <a class="btn btn-cyan btn-block" href="https://ea-admin.com" target="_blank" rel="noopener">Get KairoX — $150</a>
-        <p class="cdisc">MT5 only. License activation is account-specific and subject to approval. Trading involves risk — see disclaimer below.</p>
+        <div class="price-warn" data-i18n="freeWarn">Must register under our official IB link — limited to 1 MT5 account. Activation is subject to review and approval.</div>
+        <a class="btn btn-green btn-block" href="#free-access" data-i18n="freeBtn">Free Access →</a>
       </div>
 
-      <div class="card hl" id="agprime">
-        <span class="ctag">MOST ADVANCED</span>
-        <div class="cname notranslate">AG Prime</div>
-        <div class="cmeta">MetaTrader 5 · Adaptive Trade Management</div>
-        <div class="cprice">$350 <span>/ lifetime</span></div>
-        <div class="cmeta">Unlimited MT5 accounts</div>
-        <p class="muted" style="font-size:13.5px;line-height:1.6;margin:0 0 18px;">An advanced automated trading solution designed for active market conditions — adaptive trade management, basket handling, configurable risk controls, and automated execution.</p>
-        <ul class="cfeat">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> One-time payment — no recurring fees</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> Adaptive, market-condition-aware handling</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> Basket management &amp; configurable risk controls</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> License activation &amp; setup guidance included</li>
+      <!-- KAIROX -->
+      <div class="price-card kairox reveal d1" id="kairox">
+        <div class="eyebrow" style="color:var(--cyan);"><span class="dot dot-cyan"></span> <span data-i18n="kEyebrow">MOMENTUM-FOCUSED</span></div>
+        <div class="price-name notranslate">KairoX</div>
+        <div class="price-amt">$150 <span data-i18n="lifetime">/ lifetime</span></div>
+        <div class="price-meta" data-i18n="unlimitedAcc">Unlimited MT5 accounts</div>
+        <ul class="price-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="pf1">One-time payment — no recurring fees</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="kf2">Automated, momentum-focused execution</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="pf3">Basket-level trade management</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="pf4">License activation &amp; setup guidance included</span></li>
         </ul>
-        <a class="btn btn-gold btn-block" href="https://ea-admin.com" target="_blank" rel="noopener">Get AG Prime — $350</a>
-        <p class="cdisc">MT5 only. License activation is account-specific and subject to approval. Trading involves risk — see disclaimer below.</p>
+        <button class="btn btn-cyan btn-block" onclick="openPurchase('kairox')" data-i18n="kBtn">Get KairoX — $150</button>
+      </div>
+
+      <!-- AG PRIME -->
+      <div class="price-card agprime reveal d2" id="agprime">
+        <div class="eyebrow" style="color:var(--gold);"><span class="dot dot-gold"></span> <span data-i18n="aEyebrow">MOST ADVANCED</span></div>
+        <div class="price-name notranslate">AG Prime</div>
+        <div class="price-amt">$350 <span data-i18n="lifetime">/ lifetime</span></div>
+        <div class="price-meta" data-i18n="unlimitedAcc">Unlimited MT5 accounts</div>
+        <ul class="price-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="pf1">One-time payment — no recurring fees</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="af2">Adaptive, market-condition-aware handling</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="af3">Basket management &amp; configurable risk controls</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="pf4">License activation &amp; setup guidance included</span></li>
+        </ul>
+        <button class="btn btn-gold btn-block" onclick="openPurchase('agprime')" data-i18n="aBtn">Get AG Prime — $350</button>
       </div>
     </div>
 
-    <p class="mini center muted" style="margin-top:22px;max-width:640px;margin-left:auto;margin-right:auto;">
+    <p class="muted center" style="margin-top:26px;max-width:640px;margin-left:auto;margin-right:auto;font-size:12.5px;line-height:1.7;" data-i18n="unlimitedNote">
       "Unlimited MT5 accounts" means one lifetime purchase gives you access to register and use the EA on unlimited eligible MT5 trading accounts, subject to license activation, account verification, platform compatibility, and the applicable license rules. We do not sell or distribute MQL5 source code.
     </p>
-  </section>
+  </div>
+</section>
 
-  <!-- COMPARISON -->
-  <section id="compare">
-    <div class="center"><div class="h2">Compare Your Options</div>
-    <p class="h2sub muted">KairoX, AG Prime, and Free Access side by side.</p></div>
-    <div class="tblwrap">
-      <table class="cmp">
-        <tr><th>&nbsp;</th><th class="c notranslate">KairoX</th><th class="c notranslate">AG Prime</th><th class="c">Free Access</th></tr>
-        <tr><td>Price</td><td class="c">$150 lifetime</td><td class="c">$350 lifetime</td><td class="c">No upfront cost*</td></tr>
-        <tr><td>Platform</td><td class="c">MT5 only</td><td class="c">MT5 only</td><td class="c">MT5 only</td></tr>
-        <tr><td>MT5 accounts</td><td class="c">Unlimited</td><td class="c">Unlimited</td><td class="c">Single reviewed account</td></tr>
-        <tr><td>Style</td><td class="c">Aggressive, momentum-focused</td><td class="c">Adaptive, advanced risk controls</td><td class="c">Assigned by EA Admin</td></tr>
-        <tr><td>Requires Vantage registration</td><td class="c">No</td><td class="c">No</td><td class="c"><span class="yes">Yes</span></td></tr>
-        <tr><td>Requires purchase</td><td class="c"><span class="yes">Yes</span></td><td class="c"><span class="yes">Yes</span></td><td class="c">No</td></tr>
-        <tr><td>Approval required for activation</td><td class="c"><span class="yes">Yes</span></td><td class="c"><span class="yes">Yes</span></td><td class="c"><span class="yes">Yes</span></td></tr>
-      </table>
+<!-- PURCHASE MODAL -->
+<div class="modal-scrim" id="purchaseModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="pmTitle">Purchasing KairoX</h3>
+      <button class="modal-close" onclick="closePurchase()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </div>
-    <p class="mini muted center" style="margin-top:14px;">*Free Access requires registering a live trading account through our official Vantage referral link and making your own trading deposit — see details below.</p>
-  </section>
+    <p class="modal-sub" data-i18n="pmSub">Send USDT, USDT (BEP20), or BTC and confirm on Telegram or WhatsApp.</p>
+    <div class="modal-row"><span class="l" data-i18n="pmPlan">Plan</span><span class="v" data-i18n="pmPlanV">Lifetime · Unlimited accounts</span></div>
+    <div class="modal-row"><span class="l" data-i18n="pmAmount">Amount</span><span class="v" id="pmAmount">$150 USDT</span></div>
 
-  <!-- FREE ACCESS -->
-  <section id="free-access">
-    <div class="center"><div class="h2">Free Access</div>
-    <p class="h2sub muted">Get EA Admin's software without an upfront purchase, by registering through our official Vantage partnership.</p></div>
-
-    <div class="fa-box">
-      <h3><span class="fa-num">1</span> Register Through Our Official Vantage Link</h3>
-      <p>Before receiving the EA, you must register a LIVE Vantage trading account through our official Vantage registration link.</p>
-      <a class="btn btn-gold" href="https://vigco.co/la-com-inv/eaadmin" target="_blank" rel="noopener noreferrer">Register Through Our Official Vantage Link</a>
+    <div class="addr-label" data-i18n="pmNetwork">NETWORK — CHOOSE ONE</div>
+    <div class="net-tabs">
+      <button class="net-tab active" onclick="setNetwork('trc20',this)">USDT TRC20</button>
+      <button class="net-tab" onclick="setNetwork('bep20',this)">USDT (BEP20)</button>
+      <button class="net-tab" onclick="setNetwork('btc',this)">Bitcoin</button>
+    </div>
+    <div class="addr-label" id="netLabel">USDT — TRC20 (TRON)</div>
+    <div class="addr-box">
+      <span id="addrText">THS82ch7XqJwDc1nhnmnAG8jnwBd78xity</span>
+      <button class="addr-copy" onclick="copyAddr()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg></button>
     </div>
 
-    <div class="fa-box">
-      <h3><span class="fa-num">2</span> Already Registered Under Another IB?</h3>
-      <p>If you already registered with another IB, contact Vantage support or the relevant partner manager and request a client transfer to EA Admin. Transfer requests are subject to Vantage's approval and applicable account rules — a transfer is not guaranteed.</p>
-      <div class="copybox" id="ibMsg">Dear Iboh,
+    <p class="modal-help" data-i18n="pmHelp">After payment, send the transaction screenshot and your <b>MT5 account number</b> to <b>EA Admin</b> on Telegram or WhatsApp for license activation.</p>
+
+    <div class="modal-btns">
+      <a class="btn btn-tg btn-block" href="https://t.me/eaadmin0" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M21.9 4.3 18.6 19.6c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.2 13.3l-4.8-1.5c-1-.3-1.1-1 .2-1.5l18.7-7.2c.9-.3 1.6.2 1.4 1.2z"/></svg>
+        <span data-i18n="pmTg">Confirm Payment on Telegram</span>
+      </a>
+      <a class="btn btn-wa btn-block" href="https://wa.me/256727290903" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20z"/></svg>
+        <span data-i18n="pmWa">Confirm Payment on WhatsApp</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- FREE ACCESS FULL -->
+<section id="free-access">
+  <div class="wrap">
+    <div class="center reveal">
+      <h2 class="h2" data-i18n="faTitle">Free Access</h2>
+      <p class="h2sub" data-i18n="faSub">Get EA Admin's software without an upfront purchase, by registering through our official Vantage partnership.</p>
+    </div>
+
+    <div style="max-width:600px;margin:0 auto;">
+      <div class="step reveal d1">
+        <div class="step-num">1</div>
+        <div>
+          <h3 data-i18n="fa1t">Register Through Our Official Vantage Link</h3>
+          <p data-i18n="fa1d">Before receiving the EA, you must register a LIVE Vantage trading account through our official Vantage registration link.</p>
+          <a class="btn btn-gold" style="margin-top:12px;" href="https://vigco.co/la-com-inv/eaadmin" target="_blank" rel="noopener noreferrer" data-i18n="fa1btn">Register Through Our Official Vantage Link</a>
+        </div>
+      </div>
+
+      <div class="step reveal d1">
+        <div class="step-num">2</div>
+        <div>
+          <h3 data-i18n="fa2t">Already Registered Under Another IB?</h3>
+          <p data-i18n="fa2d">If you already registered with another IB, contact Vantage support or the relevant partner manager and request a client transfer to EA Admin. Transfer requests are subject to Vantage's approval and applicable account rules — a transfer is not guaranteed.</p>
+          <div class="addr-box" style="margin-top:12px;white-space:pre-wrap;font-family:inherit;font-size:13px;line-height:1.7;" id="ibMsg">Dear Iboh,
 
 Please assist to move my account under IB eaadmin (32365107).
 
 My registered email: [Your Email]
 
 Thank you.</div>
-      <button class="btn btn-line" onclick="copyIB()" id="copyBtn">Copy Message</button>
-      <p class="mini" style="margin-top:10px;">Send to: <b>kedei.iboh@vantagemarkets.com</b> · Subject: <b>Client transfer - (Your Name)</b></p>
-    </div>
+          <button class="btn btn-ghost" style="margin-top:10px;" onclick="copyIB()" id="copyBtn" data-i18n="fa2copy">Copy Message</button>
+          <p class="muted" style="font-size:12px;margin-top:10px;" data-i18n="fa2note">Send to: <b>kedei.iboh@vantagemarkets.com</b> · Subject: <b>Client transfer - (Your Name)</b></p>
+        </div>
+      </div>
 
-    <div class="fa-box">
-      <h3><span class="fa-num">3</span> Verify and Deposit</h3>
-      <p>Complete your Vantage account verification, create a Cent Account for MT5, and make your trading deposit according to your own trading plan and risk tolerance. Depositing does not guarantee EA approval.</p>
-    </div>
+      <div class="step reveal d2">
+        <div class="step-num">3</div>
+        <div><h3 data-i18n="fa3t">Verify and Deposit</h3>
+        <p data-i18n="fa3d">Complete your Vantage account verification, create a Cent Account for MT5, and make your trading deposit according to your own trading plan and risk tolerance. Depositing does not guarantee EA approval.</p></div>
+      </div>
 
-    <div class="fa-box">
-      <h3><span class="fa-num">4</span> Send Your MT5 Account Number</h3>
-      <p>After your account is ready, send us your MT5 account number and registered name so EA Admin can review the information and prepare the license activation process.</p>
-      <div class="btnrow" style="justify-content:flex-start;">
-        <a class="btn btn-cyan" href="https://ea-adminlicense.xyz" target="_blank" rel="noopener">Submit on the License Portal</a>
-        <a class="btn btn-line" href="https://t.me/eaadmin0" target="_blank" rel="noopener">Message on Telegram</a>
+      <div class="step reveal d2">
+        <div class="step-num">4</div>
+        <div>
+          <h3 data-i18n="fa4t">Send Your MT5 Account Number</h3>
+          <p data-i18n="fa4d">After your account is ready, send us your MT5 account number and registered name so EA Admin can review the information and prepare the license activation process.</p>
+          <div class="btnrow" style="justify-content:flex-start;margin-top:10px;">
+            <a class="btn btn-wa" href="https://wa.me/256727290903" target="_blank" rel="noopener" data-i18n="fa4wa">Message on WhatsApp</a>
+            <a class="btn btn-tg" href="https://t.me/eaadmin0" target="_blank" rel="noopener" data-i18n="fa4tg">Message on Telegram</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="step reveal d3">
+        <div class="step-num">5</div>
+        <div>
+          <h3 data-i18n="fa5t">Receive Your EA</h3>
+          <p data-i18n="fa5d">Once your account has been reviewed and approved, EA Admin will provide the applicable KairoX or AG Prime EA files and activate the license specifically for your MT5 account. Free Access is not the same as purchasing a lifetime license.</p>
+          <p class="muted" style="font-size:12.5px;margin-top:8px;" data-i18n="fa5note">You'll need MT5 with a stable internet connection kept running; a VPS is recommended for continuous, uninterrupted operation.</p>
+        </div>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="fa-box">
-      <h3><span class="fa-num">5</span> Receive Your EA</h3>
-      <p>Once your account has been reviewed and approved, EA Admin will provide the applicable KairoX or AG Prime EA files and activate the license specifically for your MT5 account. Free Access is not the same as purchasing a lifetime license — see the comparison above.</p>
-      <p class="mini">You'll need MT5 with a stable internet connection kept running; a VPS is recommended for continuous, uninterrupted operation.</p>
+<!-- DOWNLOAD -->
+<section id="download">
+  <div class="wrap">
+    <div class="center reveal">
+      <h2 class="h2" data-i18n="dlTitle">Download</h2>
+      <p class="h2sub" data-i18n="dlSub">Compiled for MT5 only. Install into your platform's Experts folder and activate with your license key.</p>
     </div>
-  </section>
 
-  <!-- HOW IT WORKS -->
-  <section id="how">
-    <div class="center"><div class="h2">How It Works</div>
-    <p class="h2sub muted">The general process, whether you purchase or apply for Free Access.</p></div>
-    <div class="steps">
-      <div class="stepcard"><div class="stepnum">1</div><h4>Choose an option</h4><p>Pick KairoX, AG Prime, or Free Access.</p></div>
-      <div class="stepcard"><div class="stepnum">2</div><h4>Register or purchase</h4><p>Buy on the store, or register through our Vantage link for Free Access.</p></div>
-      <div class="stepcard"><div class="stepnum">3</div><h4>Prepare your MT5 account</h4><p>Have your MT5 account number and registered name ready.</p></div>
-      <div class="stepcard"><div class="stepnum">4</div><h4>Submit your details</h4><p>Send your account information through the license portal or Telegram.</p></div>
-      <div class="stepcard"><div class="stepnum">5</div><h4>Review &amp; activation</h4><p>EA Admin reviews and activates your license for that account.</p></div>
-      <div class="stepcard"><div class="stepnum">6</div><h4>Install on MT5</h4><p>Add the EA files to your terminal — see Installation below.</p></div>
-      <div class="stepcard"><div class="stepnum">7</div><h4>Stay connected</h4><p>Keep MT5 running with a stable connection, or use a VPS.</p></div>
-      <div class="stepcard"><div class="stepnum">8</div><h4>Monitor responsibly</h4><p>Review performance and settings regularly — no EA runs unattended forever.</p></div>
+    <div style="max-width:520px;margin:0 auto;">
+      <div class="dl-card reveal d1">
+        <div class="dl-head">
+          <div class="dl-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 19h16"/></svg></div>
+          <div><h4 class="notranslate">Download KairoX + Setfiles</h4><span>KairoX.ex5 + preset .set files</span></div>
+        </div>
+        <div class="dl-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="15" height="15" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> <span data-i18n="dlNote">License key required at runtime</span></div>
+        <a class="btn btn-gold btn-block" href="/downloads/KairoX-Setfiles.zip" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 19h16"/></svg> <span data-i18n="dlBtn">Download</span></a>
+        <p class="dl-help" data-i18n="dlHelp">Don't have a license yet? <a href="#pricing">Get one here.</a></p>
+      </div>
+
+      <div class="dl-card reveal d2">
+        <div class="dl-head">
+          <div class="dl-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 19h16"/></svg></div>
+          <div><h4 class="notranslate">Download AG Prime + Setfiles</h4><span>AGPrime.ex5 + preset .set files</span></div>
+        </div>
+        <div class="dl-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="15" height="15" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg> <span data-i18n="dlNote">License key required at runtime</span></div>
+        <a class="btn btn-ghost btn-block" href="/downloads/AGPrime-Setfiles.zip" download>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="16" height="16" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 19h16"/></svg> <span data-i18n="dlBtn">Download</span></a>
+        <p class="dl-help" data-i18n="dlHelp">Don't have a license yet? <a href="#pricing">Get one here.</a></p>
+      </div>
+
+      <div class="setup-note reveal d3">
+        <h4 data-i18n="snTitle">Setup note — required once per terminal</h4>
+        <p data-i18n="snDesc">The EA verifies your license online. Add this URL to your MetaTrader whitelist:</p>
+        <div class="urlbox">
+          <span class="notranslate">https://ea-adminlicense.xyz</span>
+          <button onclick="copyURL()" id="urlCopyBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg> <span data-i18n="copyLabel">Copy</span></button>
+        </div>
+        <p class="muted" style="font-size:12px;margin:0;" data-i18n="snSteps">MT5 → Tools → Options → Expert Advisors → tick "Allow WebRequest for listed URL" → add the URL above → OK.</p>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- INSTALLATION -->
-  <section id="install">
-    <div class="center"><div class="h2">Installation</div>
-    <p class="h2sub muted">General setup steps for KairoX and AG Prime on MetaTrader 5.</p></div>
-    <div class="steps">
-      <div class="stepcard"><div class="stepnum">1</div><h4>Place the EA file</h4><p>Copy the provided .ex5 file into MT5's <code class="notranslate">MQL5/Experts</code> folder (File → Open Data Folder).</p></div>
-      <div class="stepcard"><div class="stepnum">2</div><h4>Refresh the Navigator</h4><p>Right-click "Expert Advisors" in the Navigator panel and refresh so the EA appears.</p></div>
-      <div class="stepcard"><div class="stepnum">3</div><h4>Attach to a chart</h4><p>Drag the EA onto the correct chart and symbol for your license.</p></div>
-      <div class="stepcard"><div class="stepnum">4</div><h4>Enable Algo Trading</h4><p>Turn on Algo Trading in the toolbar and allow it in the EA's Common tab.</p></div>
-      <div class="stepcard"><div class="stepnum">5</div><h4>Load your .set file</h4><p>In the Inputs tab, load the provided .set configuration file if supplied.</p></div>
-      <div class="stepcard"><div class="stepnum">6</div><h4>Enter your license key</h4><p>Paste the license key you received into the EA's License input.</p></div>
-      <div class="stepcard"><div class="stepnum">7</div><h4>Check Experts &amp; Journal</h4><p>Confirm the EA initialized correctly with no errors in these tabs.</p></div>
-      <div class="stepcard"><div class="stepnum">8</div><h4>Keep MT5 running</h4><p>The EA only works while MT5 is open and connected — a VPS keeps it running 24/5.</p></div>
+<!-- INSTALLATION GUIDE -->
+<section id="install">
+  <div class="wrap">
+    <div class="center reveal">
+      <h2 class="h2" data-i18n="instMainTitle">MetaTrader 5 — EA Installation &amp; Setup Guide</h2>
+      <p class="h2sub" data-i18n="instMainSub">KairoX &amp; AG Prime Guide — install, configure, and start using your EA on MetaTrader 5, on PC or VPS.</p>
     </div>
-  </section>
 
-  <!-- LICENSE -->
-  <section id="license">
-    <div class="center"><div class="h2">License System</div>
-    <p class="h2sub muted">How EA Admin licensing actually works.</p></div>
-    <div class="tblwrap" style="padding:24px 26px;">
-      <p class="muted" style="font-size:14px;line-height:1.75;margin:0 0 14px;">The official license server is <a href="https://ea-adminlicense.xyz" target="_blank" rel="noopener" style="color:var(--cyan);">ea-adminlicense.xyz</a>. Licenses are account-specific — each key is tied to one MT5 account number. Purchasing lifetime, unlimited-account access does not mean the EA is automatically activated on every account you own; each account still needs its details submitted and reviewed before activation.</p>
-      <p class="muted" style="font-size:14px;line-height:1.75;margin:0;">EA files and license keys are for your own use only and must not be shared or redistributed. We do not provide MQL5 source code with any purchase or Free Access activation.</p>
+    <div style="max-width:680px;margin:0 auto;">
+
+      <div class="inst-section reveal">
+        <h4><span class="inst-num">1</span> <span data-i18n="i1t">Requirements</span></h4>
+        <p data-i18n="i1p">Before installing the EA, make sure you have:</p>
+        <ul>
+          <li data-i18n="i1a">A MetaTrader 5 (MT5) trading account &amp; MT5 application installed on your PC and VPS</li>
+          <li data-i18n="i1b">Your EA file</li>
+          <li data-i18n="i1c">The appropriate .set file provided for your account</li>
+          <li data-i18n="i1d">A stable internet connection</li>
+          <li data-i18n="i1e">Your MT5 account number</li>
+          <li data-i18n="i1f">An active/approved EA license</li>
+          <li data-i18n="i1g">AutoTrading/Algo Trading enabled in MT5</li>
+        </ul>
+        <p style="margin-top:10px;" data-i18n="i1h">For continuous operation, using a reliable VPS is recommended.</p>
+      </div>
+
+      <div class="inst-section reveal">
+        <h4><span class="inst-num">2</span> <span data-i18n="i2t">Important — use the correct set file</span></h4>
+        <p data-i18n="i2p">We provided different .set files for different account sizes. <a href="#download" style="color:var(--gold);font-weight:700;">Click here</a> — the set file page opens, then you download.</p>
+        <p data-i18n="i2p2">Always use the .set file provided for your specific account size. For example:</p>
+        <ul>
+          <li data-i18n="i2a">$500 (50,000 Cents) account → use the designated $500 set file</li>
+          <li data-i18n="i2b">$5,000 (500,000 Cents) account → use the designated $5,000 set file</li>
+          <li data-i18n="i2c">$100 (10,000 Cents) account → use the designated 10,000-cent set file</li>
+        </ul>
+        <p style="margin-top:10px;" data-i18n="i2d">Do not randomly use another account's configuration. The supplied set file is intended to provide the appropriate starting configuration for that account size.</p>
+      </div>
+
+      <div class="inst-section reveal">
+        <h4><span class="inst-num">3</span> <span data-i18n="i3t">Install the EA</span></h4>
+        <p data-i18n="i3p">Open MetaTrader 5. Go to: <b>File → Open Data Folder</b>, then open <b>MQL5 → Experts</b>. Place your EA .ex5 file inside the Experts folder.</p>
+        <p style="margin-top:8px;" data-i18n="i3p2">After placing the file:</p>
+        <ol>
+          <li data-i18n="i3a">Close the Data Folder.</li>
+          <li data-i18n="i3b">Return to MT5.</li>
+          <li data-i18n="i3c">Open the Navigator panel.</li>
+          <li data-i18n="i3d">Right-click Expert Advisors.</li>
+          <li data-i18n="i3e">Select Refresh.</li>
+        </ol>
+        <p style="margin-top:8px;" data-i18n="i3f">Your EA should now appear under Expert Advisors.</p>
+      </div>
+
+      <div class="inst-section reveal">
+        <h4><span class="inst-num">4</span> <span data-i18n="i4t">Add the license server URL to MT5</span></h4>
+        <p data-i18n="i4p">This step is very important. The EA needs permission to communicate with its online license server.</p>
+        <p style="margin-top:8px;" data-i18n="i4steps">In MetaTrader 5: <b>Tools → Options → Expert Advisors</b> → enable <b>"Allow WebRequest for listed URL"</b> → add this URL to the list:</p>
+        <div class="urlbox" style="margin-top:10px;">
+          <span class="notranslate">https://ea-adminlicense.xyz</span>
+          <button onclick="copyURL()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg> <span data-i18n="copyLabel">Copy</span></button>
+        </div>
+        <p style="margin-top:8px;" data-i18n="i4note">Make sure you enter the URL correctly. Do not add spaces before or after the URL. Click OK — the EA can now make the required WebRequest connection to the server.</p>
+      </div>
+
+      <div class="inst-section reveal">
+        <h4><span class="inst-num">5</span> <span data-i18n="i5t">Attach the EA to your chart</span></h4>
+        <p data-i18n="i5p">Open the symbol/chart where you want to run the EA. From the Navigator: Expert Advisors → select your EA → drag it onto the chart. When the EA settings window appears, check the required permissions and settings.</p>
+        <p style="margin-top:8px;" data-i18n="i5note">Make sure "Allow Algo Trading" is enabled where applicable, and the main MT5 Algo Trading/AutoTrading button is enabled.</p>
+      </div>
+
+      <div class="inst-section reveal">
+        <h4><span class="inst-num">6</span> <span data-i18n="i6t">Select the timeframe</span></h4>
+        <p data-i18n="i6p">The timeframe you use for the EA is important. Attach it to the chart matching your configuration — M5, M15, or H1 — using the corresponding set/configuration.</p>
+        <p style="margin-top:8px;" data-i18n="i6note">Do not attach the EA to one timeframe while deliberately configuring it for another, unless the EA's instructions specifically allow that setup.</p>
+      </div>
+
+      <div class="inst-section reveal">
+        <h4><span class="inst-num">7</span> <span data-i18n="i7t">Load your set file (optional)</span></h4>
+        <p data-i18n="i7p">After attaching the EA: open the EA's Inputs settings, select Load, locate the .set file provided to you, select the correct set file for your account, load the configuration, and check the settings before clicking OK.</p>
+        <p style="margin-top:8px;" data-i18n="i7note">The set file contains the recommended configuration intended for that particular account setup.</p>
+      </div>
+
+      <div class="inst-section reveal">
+        <h4><span class="inst-num">8</span> <span data-i18n="i8t">Lot size</span></h4>
+        <p data-i18n="i8p">The supplied set file or EA contains the recommended starting configuration. You may adjust the Lot Size manually if you understand the effect changing it can have on margin usage, exposure, drawdown, number of trades, and potential gains or losses.</p>
+        <p style="margin-top:8px;" data-i18n="i8note">If you change the lot size, you are changing the EA's risk/exposure from the supplied configuration. Do not increase the lot size simply because the account is profitable. Only use a lot size you understand and are comfortable with. (Inbuilt lot size recommended.)</p>
+      </div>
+
+      <div class="inst-section reveal">
+        <h4><span class="inst-num">9</span> <span data-i18n="i9t">Account-specific configuration</span></h4>
+        <p data-i18n="i9p">We may provide different configurations depending on the trading account. The configuration intended for a smaller account may use different settings from one designed for a larger account.</p>
+        <p style="margin-top:8px;" data-i18n="i9note">Use the set file supplied for your account. Do not assume a configuration designed for a larger account is suitable for a smaller account.</p>
+      </div>
+
+      <div class="inst-section reveal">
+        <h4><span class="inst-num">10</span> <span data-i18n="i10t">Check the EA after attaching it</span></h4>
+        <p data-i18n="i10p">Look at the top-right corner of your MT5 chart to confirm the EA is running. Also check Toolbox → Experts and Toolbox → Journal for messages related to initialization, connection, license verification, trading permissions, configuration, and errors.</p>
+        <p style="margin-top:8px;" data-i18n="i10note">If you see an error, do not repeatedly restart the EA. First identify the error and contact EA Admin support if necessary.</p>
+      </div>
+
+      <div class="inst-section reveal">
+        <h4><span class="inst-num">11</span> <span data-i18n="i11t">License connection</span></h4>
+        <p data-i18n="i11p">The EA uses an online licensing system. The MT5 WebRequest permission allows the EA to communicate with the required online server, which then checks your EA account/license information.</p>
+        <p style="margin-top:8px;" data-i18n="i11check">Make sure: your MT5 account number is correct, your EA license has been activated, your MT5 terminal has internet access, the license-server URL was entered correctly, WebRequest permission is enabled, and MT5 is not being blocked by your network/firewall.</p>
+        <p style="margin-top:8px;" data-i18n="i11note">If the EA reports a license problem, contact EA Admin support.</p>
+      </div>
+
+      <div class="inst-section reveal">
+        <h4><span class="inst-num">12</span> <span data-i18n="i12t">Do not remove the license server URL</span></h4>
+        <p data-i18n="i12p">Once you have added <span class="notranslate">https://ea-adminlicense.xyz</span> to the MT5 WebRequest list, leave it there while using the EA. Removing the URL may prevent the EA from communicating with the online licensing system.</p>
+      </div>
+
+      <div class="inst-section reveal">
+        <h4><span class="inst-num">13</span> <span data-i18n="i13t">Running the EA</span></h4>
+        <p data-i18n="i13p">Once everything has been configured, confirm: the correct trading account, the correct symbol, the correct timeframe, the correct .set file, the lot size, Algo Trading enabled, WebRequest permission enabled, the license is active, and the EA shows no critical errors. Then allow the EA to operate.</p>
+        <p style="margin-top:8px;" data-i18n="i13note">Avoid repeatedly changing settings while the EA is running unless you understand what the change does.</p>
+      </div>
+
+      <div class="inst-section reveal">
+        <h4><span class="inst-num">14</span> <span data-i18n="i14t">VPS recommendation</span></h4>
+        <p data-i18n="i14p">If you want the EA to continue operating when your phone or computer is offline, use a reliable Windows VPS running MT5 with a stable connection, MT5 running continuously, the EA attached to the correct chart, Algo Trading enabled, and the required WebRequest URL configured.</p>
+        <p style="margin-top:8px;" data-i18n="i14note">Do not close MT5 or shut down the VPS while expecting the EA to continue trading.</p>
+      </div>
+
+      <div class="inst-section reveal">
+        <h4><span class="inst-num">15</span> <span data-i18n="i15t">Important settings rule</span></h4>
+        <p><b><span data-i18n="i15a">Account size:</span></b> <span data-i18n="i15aTxt">choose the set file provided for your account size.</span></p>
+        <p><b><span data-i18n="i15b1">Timeframe:</span></b> <span data-i18n="i15bTxt">use the timeframe intended for that configuration (M5 or M15 recommended).</span></p>
+        <p><b><span data-i18n="i15c1">Lot size:</span></b> <span data-i18n="i15cTxt">keep the supplied lot size unless you understand the consequences of changing it (0.01 recommended).</span></p>
+        <p><b><span data-i18n="i15d1">Symbol:</span></b> <span data-i18n="i15dTxt">the EA only trades on XAUUSD / Gold pairs.</span></p>
+      </div>
+
+      <div class="inst-section reveal">
+        <h4><span class="inst-num">16</span> <span data-i18n="i16t">Do not change random settings</span></h4>
+        <p data-i18n="i16p">You do not need to modify every setting inside the EA. It comes with a prepared configuration. Unless EA Admin specifically instructs you to change something, avoid changing advanced parameters such as entry logic, trade management, basket parameters, risk controls, protection parameters, internal filters, or advanced execution settings.</p>
+        <p style="margin-top:8px;" data-i18n="i16note">Changing advanced settings can produce behavior different from the intended configuration.</p>
+      </div>
+
+      <div class="inst-section reveal">
+        <h4><span class="inst-num">17</span> <span data-i18n="i17t">If the EA does not trade</span></h4>
+        <p data-i18n="i17p">An EA not opening a trade does not necessarily mean it is broken — it may be paused by design, or a news window may be active. Check the Experts tab for the message explaining why the EA isn't opening a trade.</p>
+        <p style="margin-top:8px;" data-i18n="i17check">Before contacting support, check: is Algo Trading enabled, is the EA attached to the correct chart, is the correct timeframe being used, is the correct .set file loaded, is the correct symbol being used, is the license active, is the WebRequest URL correctly added, does MT5 have internet access, are there errors in the Experts or Journal tab, and is the market currently suitable for the EA's trading conditions?</p>
+        <p style="margin-top:8px;" data-i18n="i17note">Do not continuously remove and reinstall the EA. If everything looks fine, delete the chart and reopen it, then reattach the EA again.</p>
+      </div>
+
+      <div class="inst-section reveal">
+        <h4><span class="inst-num">18</span> <span data-i18n="i18t">Quick setup checklist</span></h4>
+        <ul class="checklist">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="c1">MT5 installed</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="c2">Correct trading account selected</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="c3">EA .ex5 installed</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="c4">EA visible in Navigator</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="c5">Correct symbol selected</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="c6">Correct timeframe selected</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="c7">Correct account-size .set file loaded</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="c8">Lot size checked</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="c9">Algo Trading enabled</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="c10">WebRequest enabled</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span class="notranslate" data-i18n="c11">https://ea-adminlicense.xyz added to the WebRequest URL list</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="c12">EA license activated</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="c13">Internet connection working</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="c14">No critical errors in Experts/Journal</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 13 4 4L19 7"/></svg> <span data-i18n="c15">VPS configured if required</span></li>
+        </ul>
+      </div>
+
+      <div class="inst-section reveal">
+        <h4><span class="inst-num">19</span> <span data-i18n="i19t">Support</span></h4>
+        <p data-i18n="i19p">If you experience a problem with installation, licensing, configuration, or EA operation, contact EA Admin support.</p>
+        <p style="margin-top:8px;" data-i18n="i19provide">When contacting support, provide: your MT5 account number, your registered name, EA name (KairoX or AG Prime), symbol, timeframe, account balance/equity, a screenshot of the EA settings, and a screenshot of the Experts/Journal error if applicable.</p>
+        <div class="btnrow" style="justify-content:flex-start;margin-top:12px;">
+          <a class="btn btn-tg" href="https://t.me/eaadmin0" target="_blank" rel="noopener">Contact on Telegram</a>
+          <a class="btn btn-wa" href="https://wa.me/256727290903" target="_blank" rel="noopener">Contact on WhatsApp</a>
+        </div>
+      </div>
+
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- FAQ -->
-  <section id="faq">
-    <div class="center"><div class="h2">Frequently Asked Questions</div></div>
-    <div class="faq" id="faqlist"></div>
-  </section>
-
-  <!-- DISCLAIMER -->
-  <section id="risk">
-    <div class="disclaimer">
-      <b>Risk Disclaimer.</b> Trading foreign exchange, gold, crypto, indices, and other financial instruments involves substantial risk and may result in the loss of capital. EA Admin products are software tools and do not guarantee profits, income, or account growth. Past performance, examples, screenshots, or demonstrations do not guarantee future results. Users are responsible for their account settings, broker conditions, risk management, and trading decisions. Only trade with funds you can afford to lose.
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="center reveal">
+      <h2 class="h2" data-i18n="faqTitle">Frequently asked questions</h2>
+      <p class="h2sub" data-i18n="faqSub">Everything you need to know about KairoX and AG Prime.</p>
     </div>
-  </section>
+    <div class="faq-tabs reveal">
+      <button class="faq-tab active" onclick="faqTab(1,this)" data-i18n="faqTab1">Basics</button>
+      <button class="faq-tab" onclick="faqTab(2,this)" data-i18n="faqTab2">Account &amp; broker</button>
+      <button class="faq-tab" onclick="faqTab(3,this)" data-i18n="faqTab3">Capital &amp; risk</button>
+      <button class="faq-tab" onclick="faqTab(4,this)" data-i18n="faqTab4">Setup &amp; help</button>
+    </div>
 
-</div>
+    <div class="faq-grp active" data-grp="1">
+      <div class="faq-item"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="q1">What is EA Admin?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="faq-a"><p data-i18n="a1">EA Admin is the brand behind two automated MT5 Expert Advisors, KairoX and AG Prime, plus the license system that activates them.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="q2">What is KairoX?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="faq-a"><p data-i18n="a2">KairoX is EA Admin's more aggressive, momentum-focused automated trading EA with basket-level trade management, for MT5.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="q3">What is AG Prime?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="faq-a"><p data-i18n="a3">AG Prime is EA Admin's advanced automated trading EA, built for adaptive trade management, basket handling, and configurable risk controls, for MT5.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="q4">Do the EAs work on MT4?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="faq-a"><p data-i18n="a4">No. Both KairoX and AG Prime are built for MetaTrader 5 only.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="q5">What does lifetime access mean?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="faq-a"><p data-i18n="a5">A one-time payment with no recurring monthly or yearly fees for as long as the license remains valid and in good standing.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="q6">Do I receive MQL5 source code?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="faq-a"><p data-i18n="a6">No. We provide the compiled EA files (.ex5) and a license key — we do not sell or distribute MQL5 source code.</p></div></div>
+    </div>
+
+    <div class="faq-grp" data-grp="2">
+      <div class="faq-item"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="q7">What does unlimited MT5 accounts mean?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="faq-a"><p data-i18n="a7">One lifetime purchase lets you register and use the EA on unlimited eligible MT5 accounts, subject to license activation, verification, and the applicable license rules for each account.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="q8">How can I get free access?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="faq-a"><p data-i18n="a8">Register a live account through our official Vantage referral link, verify and fund it, then submit your MT5 account number for review — see the Free Access section above.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="q9">What if I already registered with another IB?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="faq-a"><p data-i18n="a9">Contact Vantage support and request a client transfer to EA Admin using the message template in the Free Access section. Transfers are subject to Vantage's approval.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="q10">How is the license activated?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="faq-a"><p data-i18n="a10">You submit your MT5 account number and registered name through Telegram or WhatsApp. EA Admin reviews the details and activates a key tied to that account.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="q11">Can I share the EA?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="faq-a"><p data-i18n="a11">No. License keys and EA files are for your own use and must not be shared or redistributed.</p></div></div>
+    </div>
+
+    <div class="faq-grp" data-grp="3">
+      <div class="faq-item"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="q12">Do I need a Cent Account?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="faq-a"><p data-i18n="a12">Yes, we recommend all users use Cent Accounts to have huge room for unexpected market conditions likely to occur. Users can use Standard Accounts if they have $10,000 &amp; above.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="q13">Is profit guaranteed?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="faq-a"><p data-i18n="a13">No. No EA, including KairoX or AG Prime, guarantees profit. Trading involves substantial risk.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="q14">What are the risks?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="faq-a"><p data-i18n="a14">Trading forex, gold, crypto, and other instruments can result in the loss of capital. Only trade with funds you can afford to lose — see the full Risk Disclaimer below.</p></div></div>
+    </div>
+
+    <div class="faq-grp" data-grp="4">
+      <div class="faq-item"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="q15">Do I need a VPS?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="faq-a"><p data-i18n="a15">Not required, but recommended. MT5 needs to stay open and connected for the EA to keep working — a VPS keeps it running continuously.</p></div></div>
+      <div class="faq-item"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="q16">The EA isn't trading — what do I check?</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button><div class="faq-a"><p data-i18n="a16">See Section 17 of the Installation Guide above — Algo Trading, chart/timeframe, set file, license status, WebRequest URL, and the Experts/Journal tabs.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- DISCLAIMER -->
+<section id="risk">
+  <div class="wrap">
+    <div class="disclaimer reveal">
+      <b data-i18n="riskT">Risk Disclaimer.</b> <span data-i18n="riskP">Trading foreign exchange, gold, crypto, indices, and other financial instruments involves substantial risk and may result in the loss of capital. EA Admin products are software tools and do not guarantee profits, income, or account growth. Past performance, examples, screenshots, or demonstrations do not guarantee future results. Users are responsible for their account settings, broker conditions, risk management, and trading decisions. Only trade with funds you can afford to lose.</span>
+    </div>
+  </div>
+</section>
 
 <footer>
   <div class="wrap">
     <div class="fgrid">
       <div class="fcol">
         <h5 class="notranslate">EA Admin</h5>
-        <p class="muted" style="font-size:13px;line-height:1.7;max-width:220px;">Automated MT5 Expert Advisors — KairoX and AG Prime. Built and supported by MADSON EA Admin.</p>
+        <p class="muted" style="font-size:13px;line-height:1.7;max-width:220px;" data-i18n="footAbout">Automated MT5 Expert Advisors — KairoX and AG Prime. Built and supported by MADSON EA Admin.</p>
       </div>
       <div class="fcol">
-        <h5>Products</h5>
-        <a href="#kairox">KairoX — $150</a>
-        <a href="#agprime">AG Prime — $350</a>
-        <a href="#free-access">Free Access</a>
-        <a href="#compare">Compare</a>
+        <h5 data-i18n="footProd">Products</h5>
+        <a href="#kairox" class="notranslate">KairoX — $150</a>
+        <a href="#agprime" class="notranslate">AG Prime — $350</a>
+        <a href="#free-access" data-i18n="footFree">Free Access</a>
       </div>
       <div class="fcol">
-        <h5>Support</h5>
-        <a href="https://ea-adminlicense.xyz" target="_blank" rel="noopener">License Portal</a>
-        <a href="#install">Installation</a>
+        <h5 data-i18n="footSupport">Support</h5>
+        <a href="#install" data-i18n="footInstall">Installation</a>
         <a href="#faq">FAQ</a>
-        <a href="#risk">Risk Disclaimer</a>
+        <a href="#risk" data-i18n="footRisk">Risk Disclaimer</a>
       </div>
       <div class="fcol">
-        <h5>Contact</h5>
+        <h5 data-i18n="footContact">Contact</h5>
         <a href="https://t.me/eaadminofficial" target="_blank" rel="noopener">Telegram Channel</a>
         <a href="https://t.me/eaadmin0" target="_blank" rel="noopener">Telegram Contact</a>
         <a href="https://wa.me/256727290903" target="_blank" rel="noopener">WhatsApp</a>
@@ -444,7 +887,7 @@ Thank you.</div>
       </div>
     </div>
     <div class="fbottom">
-      <span>© <span id="yr"></span> <b class="notranslate">EA Admin License</b> · All rights reserved</span>
+      <span>© <span id="yr"></span> <b class="notranslate">EA Admin</b> · <span data-i18n="footRights">All rights reserved</span></span>
       <div class="fsoc">
         <a href="https://t.me/eaadminofficial" target="_blank" rel="noopener" title="Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 18.6 19.6c-.2 1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.2 13.3l-4.8-1.5c-1-.3-1.1-1 .2-1.5l18.7-7.2c.9-.3 1.6.2 1.4 1.2z"/></svg></a>
         <a href="https://tiktok.com/@eaadmin0" target="_blank" rel="noopener" title="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8.2a6.3 6.3 0 0 0 3.7 1.2V6.7a3.6 3.6 0 0 1-1.9-.6 3.7 3.7 0 0 1-1.6-2.6h-2.8v11.2a2.3 2.3 0 1 1-1.9-2.3V9.5a5.1 5.1 0 1 0 4.5 5V8.2z"/></svg></a>
@@ -452,7 +895,6 @@ Thank you.</div>
         <a href="https://wa.me/256727290903" target="_blank" rel="noopener" title="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.4 5 5.1-1.3A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20z"/></svg></a>
       </div>
     </div>
-    <p class="mini muted" style="margin-top:18px;">Store: <a href="https://ea-admin.com" style="color:var(--muted);">ea-admin.com</a> · License system: <a href="https://ea-adminlicense.xyz" target="_blank" rel="noopener" style="color:var(--muted);">ea-adminlicense.xyz</a></p>
   </div>
 </footer>
 
@@ -460,114 +902,195 @@ Thank you.</div>
 <div class="pop-scrim" id="popScrim">
   <div class="pop">
     <button class="pop-close" onclick="closePopup()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-    <div class="kicker notranslate" style="margin-bottom:14px;">WELCOME</div>
-    <h3>Welcome to EA Admin</h3>
-    <p>EA Admin builds automated MT5 Expert Advisors — <b>KairoX</b> and <b>AG Prime</b>. Here's what you can do:</p>
+    <div class="pill" style="margin-bottom:14px;">WELCOME</div>
+    <h3 data-i18n="popTitle">Welcome to EA Admin</h3>
+    <p data-i18n="popP">EA Admin builds automated MT5 Expert Advisors — KairoX and AG Prime. Here's what you can do:</p>
     <ul>
-      <li>Buy lifetime, unlimited-account access to either EA — one-time payment, no subscription</li>
-      <li>Apply for Free Access through our official Vantage registration</li>
-      <li>Both EAs are MT5 only, with account-specific license activation</li>
+      <li data-i18n="popL1">Buy lifetime, unlimited-account access to either EA — one-time payment, no subscription</li>
+      <li data-i18n="popL2">Apply for Free Access through our official Vantage registration</li>
+      <li data-i18n="popL3">Both EAs are MT5 only, with account-specific license activation</li>
     </ul>
-    <p style="font-size:12px;">Trading involves risk. Nothing here guarantees profit.</p>
-    <button class="btn btn-gold btn-block" onclick="closePopup()">Explore EA Admin</button>
+    <p style="font-size:12px;" data-i18n="popRisk">Trading involves risk. Nothing here guarantees profit.</p>
+    <button class="btn btn-gold btn-block" onclick="closePopup()" data-i18n="popBtn">Explore EA Admin</button>
   </div>
 </div>
 
 <script>
-document.getElementById("yr").textContent=new Date().getFullYear();
+document.getElementById("yr").textContent = new Date().getFullYear();
 
-/* mobile menu */
-function openMenu(){document.getElementById("mmenu").classList.add("show");}
-function closeMenu(){document.getElementById("mmenu").classList.remove("show");}
+/* ============================================================
+   TRANSLATION SYSTEM
+   Real dictionary per language (not machine translation).
+   "en" mirrors the page's own default HTML exactly, so selecting
+   English is always a safe no-op / restore. Other languages are
+   intentionally left unpopulated for now — selecting one simply
+   leaves any untranslated key showing its English default rather
+   than breaking or showing "undefined". See project notes: the
+   old site's real 20-language dictionary covered different
+   content and needs a fresh, accurate translation pass once this
+   English content is final.
+   ============================================================ */
+var I18N = {
+  "en": {"name":"ENGLISH","dir":"ltr",
+"badge":"MT5 Expert Advisors · KairoX &amp; AG Prime","hlSpan":"Built for MT5. Powered by EA Admin.","herosub":"Explore KairoX and AG Prime — automated MT5 Expert Advisors built for active market participation, structured trade management, and configurable trading control.","by":"EA Admin — MADSON EA Admin","btnExploreK":"Explore KairoX","btnExploreA":"Explore AG Prime","btnFree":"Free Access","btnContact":"Contact EA Admin","reqTitle":"What you need to run it","reqSub":"The EA runs on a computer or server — your phone is for monitoring.","reqWinT":"Windows PC or VPS","reqWinD":"KairoX and AG Prime run inside MT5 on a Windows computer, or on a VPS (a server that stays on 24/5). A VPS is recommended so the bot keeps trading even when your computer is off.","reqPhoneT":"Phone for monitoring","reqPhoneD":"Use the MT5 mobile app on your phone to watch your account — open trades, balance, and how much the bot has made. The bot itself cannot run on a phone, only be monitored from one.","howTitle":"How","howTitle2":"trade","howSub":"One repeating cycle. No prediction. Pure structure.","s1t":"Place the straddle","s1dA":"<span class=\"eatag eatag-a\">AG PRIME</span>When flat and inside the trading window, the EA places a BuyStop above price and a SellStop below price at the same time.","s1dK":"<span class=\"eatag eatag-k\">KAIROX</span>When flat and inside the trading window, the EA places a Buy Limit below price and a Sell Limit above price at the same time.","s2t":"One side triggers, the other is cancelled","s2d":"Whichever order fills first wins. The opposite pending order is removed instantly, so you never end up locked between two opposing positions.","s3t":"The winning side runs recovery","s3d":"If price moves against the open side, the EA adds positions on an adaptive schedule with controlled sizing. A strict maximum number of trades is always enforced.","s4t":"The basket closes at one take profit","s4d":"Take profit is calculated from the basket as a whole and recalculated as it grows. When it hits, every position on that side closes together.","s5t":"Recalculate and repeat","s5d":"After a basket closes, the cycle starts over: a fresh straddle is placed around the new market price.","s6t":"Pause window protects rollover","s6d":"During the daily broker rollover window the EA pauses new entries so the spread spike does not cause false triggers. Open baskets stay managed and close normally.","featTitle":"Everything inside","featSub":"Built around discipline, not hype.","f1t":"Straddle entry","f1d":"A pending order above and below the market at once. The first side that triggers wins; the other is cancelled instantly.","f2t":"Adaptive grid recovery","f2d":"When price moves against the open side, the EA adds positions at adaptive distances with controlled sizing.","f7t":"Trend Detection","f7d":"When a trend is confirmed as buys or sells, the EAs trade with the trend — deactivating the straddle orders until conditions call for one again.","f3t":"Single basket take profit","f3d":"Take profit is set from the basket breakeven and recalculated as the grid expands. When it hits, the whole side closes together.","f4t":"Rollover pause window","f4d":"New entries pause automatically during the daily broker rollover window, so the session spread spike does not cause false breakouts. Configurable in settings.","f5t":"Built-in safety presets","f5d":"Safe presets are already configured inside the EA out of the box. To increase risk, you simply increase the lot size.","f8t":"Built-in News System","f8d":"The EAs detect and pause before or after high-impact news.","f6t":"License key activation","f6d":"Each license key is bound to one MT5 account number. Run on multiple accounts by activating a key for each one.","setupRecT2":"Recommended account setup","setupRecT":"Recommended account setup","setupL1":"Account type","setupV1":"Cent account","setupL2":"Instrument","setupL3":"Minimum deposit","setupV3":"$100 USD (10,000 USC)","setupL4":"Recommended deposit","setupV4":"50,000 USC or more","setupRisk":"Cent accounts let you trade XAUUSD without large capital. 10,000 USC is only the minimum to start and carries high risk, as margin can be affected quickly during volatility. For better stability and risk control, 50,000 USC or more is strongly recommended, giving more room to withstand market fluctuations.","priceTitle":"Get KairoX &amp; AG Prime","priceSub":"Choose how you want to get started.","freeEyebrow":"FREE OPTION","freeName":"Free Access","freeAmt":"FREE","freeMeta":"Via our official Vantage IB registration · 1 account only","freeS1":"Register using our official Vantage referral link","freeS2":"Complete full verification (KYC)","freeS3":"Open an MT5 Cent trading account","freeS4":"Submit your MT5 account number for review","freeWarn":"Must register under our official IB link — limited to 1 MT5 account. Activation is subject to review and approval.","freeBtn":"Free Access →","kEyebrow":"MOMENTUM-FOCUSED","lifetime":"/ lifetime","unlimitedAcc":"Unlimited MT5 accounts","pf1":"One-time payment — no recurring fees","kf2":"Automated, momentum-focused execution","pf3":"Basket-level trade management","pf4":"License activation &amp; setup guidance included","kBtn":"Get KairoX — $150","aEyebrow":"MOST ADVANCED","af2":"Adaptive, market-condition-aware handling","af3":"Basket management &amp; configurable risk controls","aBtn":"Get AG Prime — $350","unlimitedNote":"\"Unlimited MT5 accounts\" means one lifetime purchase gives you access to register and use the EA on unlimited eligible MT5 trading accounts, subject to license activation, account verification, platform compatibility, and the applicable license rules. We do not sell or distribute MQL5 source code.","pmSub":"Send USDT, USDT (BEP20), or BTC and confirm on Telegram or WhatsApp.","pmPlan":"Plan","pmPlanV":"Lifetime · Unlimited accounts","pmAmount":"Amount","pmNetwork":"NETWORK — CHOOSE ONE","pmHelp":"After payment, send the transaction screenshot and your <b>MT5 account number</b> to <b>EA Admin</b> on Telegram or WhatsApp for license activation.","pmTg":"Confirm Payment on Telegram","pmWa":"Confirm Payment on WhatsApp","faTitle":"Free Access","faSub":"Get EA Admin's software without an upfront purchase, by registering through our official Vantage partnership.","fa1t":"Register Through Our Official Vantage Link","fa1d":"Before receiving the EA, you must register a LIVE Vantage trading account through our official Vantage registration link.","fa1btn":"Register Through Our Official Vantage Link","fa2t":"Already Registered Under Another IB?","fa2d":"If you already registered with another IB, contact Vantage support or the relevant partner manager and request a client transfer to EA Admin. Transfer requests are subject to Vantage's approval and applicable account rules — a transfer is not guaranteed.","fa2copy":"Copy Message","fa2note":"Send to: <b>kedei.iboh@vantagemarkets.com</b> · Subject: <b>Client transfer - (Your Name)</b>","fa3t":"Verify and Deposit","fa3d":"Complete your Vantage account verification, create a Cent Account for MT5, and make your trading deposit according to your own trading plan and risk tolerance. Depositing does not guarantee EA approval.","fa4t":"Send Your MT5 Account Number","fa4d":"After your account is ready, send us your MT5 account number and registered name so EA Admin can review the information and prepare the license activation process.","fa4wa":"Message on WhatsApp","fa4tg":"Message on Telegram","fa5t":"Receive Your EA","fa5d":"Once your account has been reviewed and approved, EA Admin will provide the applicable KairoX or AG Prime EA files and activate the license specifically for your MT5 account. Free Access is not the same as purchasing a lifetime license.","fa5note":"You'll need MT5 with a stable internet connection kept running; a VPS is recommended for continuous, uninterrupted operation.","dlTitle":"Download","dlSub":"Compiled for MT5 only. Install into your platform's Experts folder and activate with your license key.","dlNote":"License key required at runtime","dlBtn":"Download","dlHelp":"Don't have a license yet? <a href=\"#pricing\">Get one here.</a>","snTitle":"Setup note — required once per terminal","snDesc":"The EA verifies your license online. Add this URL to your MetaTrader whitelist:","copyLabel":"Copy","snSteps":"MT5 → Tools → Options → Expert Advisors → tick \"Allow WebRequest for listed URL\" → add the URL above → OK.","instMainTitle":"MetaTrader 5 — EA Installation &amp; Setup Guide","instMainSub":"KairoX &amp; AG Prime Guide — install, configure, and start using your EA on MetaTrader 5, on PC or VPS.","i1t":"Requirements","i1p":"Before installing the EA, make sure you have:","i1a":"A MetaTrader 5 (MT5) trading account &amp; MT5 application installed on your PC and VPS","i1b":"Your EA file","i1c":"The appropriate .set file provided for your account","i1d":"A stable internet connection","i1e":"Your MT5 account number","i1f":"An active/approved EA license","i1g":"AutoTrading/Algo Trading enabled in MT5","i1h":"For continuous operation, using a reliable VPS is recommended.","i2t":"Important — use the correct set file","i2p":"We provided different .set files for different account sizes. <a href=\"#download\" style=\"color:var(--gold);font-weight:700;\">Click here</a> — the set file page opens, then you download.","i2p2":"Always use the .set file provided for your specific account size. For example:","i2a":"$500 (50,000 Cents) account → use the designated $500 set file","i2b":"$5,000 (500,000 Cents) account → use the designated $5,000 set file","i2c":"$100 (10,000 Cents) account → use the designated 10,000-cent set file","i2d":"Do not randomly use another account's configuration. The supplied set file is intended to provide the appropriate starting configuration for that account size.","i3t":"Install the EA","i3p":"Open MetaTrader 5. Go to: <b>File → Open Data Folder</b>, then open <b>MQL5 → Experts</b>. Place your EA .ex5 file inside the Experts folder.","i3p2":"After placing the file:","i3a":"Close the Data Folder.","i3b":"Return to MT5.","i3c":"Open the Navigator panel.","i3d":"Right-click Expert Advisors.","i3e":"Select Refresh.","i3f":"Your EA should now appear under Expert Advisors.","i4t":"Add the license server URL to MT5","i4p":"This step is very important. The EA needs permission to communicate with its online license server.","i4steps":"In MetaTrader 5: <b>Tools → Options → Expert Advisors</b> → enable <b>\"Allow WebRequest for listed URL\"</b> → add this URL to the list:","i4note":"Make sure you enter the URL correctly. Do not add spaces before or after the URL. Click OK — the EA can now make the required WebRequest connection to the server.","i5t":"Attach the EA to your chart","i5p":"Open the symbol/chart where you want to run the EA. From the Navigator: Expert Advisors → select your EA → drag it onto the chart. When the EA settings window appears, check the required permissions and settings.","i5note":"Make sure \"Allow Algo Trading\" is enabled where applicable, and the main MT5 Algo Trading/AutoTrading button is enabled.","i6t":"Select the timeframe","i6p":"The timeframe you use for the EA is important. Attach it to the chart matching your configuration — M5, M15, or H1 — using the corresponding set/configuration.","i6note":"Do not attach the EA to one timeframe while deliberately configuring it for another, unless the EA's instructions specifically allow that setup.","i7t":"Load your set file (optional)","i7p":"After attaching the EA: open the EA's Inputs settings, select Load, locate the .set file provided to you, select the correct set file for your account, load the configuration, and check the settings before clicking OK.","i7note":"The set file contains the recommended configuration intended for that particular account setup.","i8t":"Lot size","i8p":"The supplied set file or EA contains the recommended starting configuration. You may adjust the Lot Size manually if you understand the effect changing it can have on margin usage, exposure, drawdown, number of trades, and potential gains or losses.","i8note":"If you change the lot size, you are changing the EA's risk/exposure from the supplied configuration. Do not increase the lot size simply because the account is profitable. Only use a lot size you understand and are comfortable with. (Inbuilt lot size recommended.)","i9t":"Account-specific configuration","i9p":"We may provide different configurations depending on the trading account. The configuration intended for a smaller account may use different settings from one designed for a larger account.","i9note":"Use the set file supplied for your account. Do not assume a configuration designed for a larger account is suitable for a smaller account.","i10t":"Check the EA after attaching it","i10p":"Look at the top-right corner of your MT5 chart to confirm the EA is running. Also check Toolbox → Experts and Toolbox → Journal for messages related to initialization, connection, license verification, trading permissions, configuration, and errors.","i10note":"If you see an error, do not repeatedly restart the EA. First identify the error and contact EA Admin support if necessary.","i11t":"License connection","i11p":"The EA uses an online licensing system. The MT5 WebRequest permission allows the EA to communicate with the required online server, which then checks your EA account/license information.","i11check":"Make sure: your MT5 account number is correct, your EA license has been activated, your MT5 terminal has internet access, the license-server URL was entered correctly, WebRequest permission is enabled, and MT5 is not being blocked by your network/firewall.","i11note":"If the EA reports a license problem, contact EA Admin support.","i12t":"Do not remove the license server URL","i12p":"Once you have added <span class=\"notranslate\">https://ea-adminlicense.xyz</span> to the MT5 WebRequest list, leave it there while using the EA. Removing the URL may prevent the EA from communicating with the online licensing system.","i13t":"Running the EA","i13p":"Once everything has been configured, confirm: the correct trading account, the correct symbol, the correct timeframe, the correct .set file, the lot size, Algo Trading enabled, WebRequest permission enabled, the license is active, and the EA shows no critical errors. Then allow the EA to operate.","i13note":"Avoid repeatedly changing settings while the EA is running unless you understand what the change does.","i14t":"VPS recommendation","i14p":"If you want the EA to continue operating when your phone or computer is offline, use a reliable Windows VPS running MT5 with a stable connection, MT5 running continuously, the EA attached to the correct chart, Algo Trading enabled, and the required WebRequest URL configured.","i14note":"Do not close MT5 or shut down the VPS while expecting the EA to continue trading.","i15t":"Important settings rule","i15a":"Account size:","i15aTxt":"choose the set file provided for your account size.","i15b1":"Timeframe:","i15bTxt":"use the timeframe intended for that configuration (M5 or M15 recommended).","i15c1":"Lot size:","i15cTxt":"keep the supplied lot size unless you understand the consequences of changing it (0.01 recommended).","i15d1":"Symbol:","i15dTxt":"the EA only trades on XAUUSD / Gold pairs.","i16t":"Do not change random settings","i16p":"You do not need to modify every setting inside the EA. It comes with a prepared configuration. Unless EA Admin specifically instructs you to change something, avoid changing advanced parameters such as entry logic, trade management, basket parameters, risk controls, protection parameters, internal filters, or advanced execution settings.","i16note":"Changing advanced settings can produce behavior different from the intended configuration.","i17t":"If the EA does not trade","i17p":"An EA not opening a trade does not necessarily mean it is broken — it may be paused by design, or a news window may be active. Check the Experts tab for the message explaining why the EA isn't opening a trade.","i17check":"Before contacting support, check: is Algo Trading enabled, is the EA attached to the correct chart, is the correct timeframe being used, is the correct .set file loaded, is the correct symbol being used, is the license active, is the WebRequest URL correctly added, does MT5 have internet access, are there errors in the Experts or Journal tab, and is the market currently suitable for the EA's trading conditions?","i17note":"Do not continuously remove and reinstall the EA. If everything looks fine, delete the chart and reopen it, then reattach the EA again.","i18t":"Quick setup checklist","c1":"MT5 installed","c2":"Correct trading account selected","c3":"EA .ex5 installed","c4":"EA visible in Navigator","c5":"Correct symbol selected","c6":"Correct timeframe selected","c7":"Correct account-size .set file loaded","c8":"Lot size checked","c9":"Algo Trading enabled","c10":"WebRequest enabled","c11":"https://ea-adminlicense.xyz added to the WebRequest URL list","c12":"EA license activated","c13":"Internet connection working","c14":"No critical errors in Experts/Journal","c15":"VPS configured if required","i19t":"Support","i19p":"If you experience a problem with installation, licensing, configuration, or EA operation, contact EA Admin support.","i19provide":"When contacting support, provide: your MT5 account number, your registered name, EA name (KairoX or AG Prime), symbol, timeframe, account balance/equity, a screenshot of the EA settings, and a screenshot of the Experts/Journal error if applicable.","faqTitle":"Frequently asked questions","faqSub":"Everything you need to know about KairoX and AG Prime.","faqTab1":"Basics","faqTab2":"Account &amp; broker","faqTab3":"Capital &amp; risk","faqTab4":"Setup &amp; help","q1":"What is EA Admin?","a1":"EA Admin is the brand behind two automated MT5 Expert Advisors, KairoX and AG Prime, plus the license system that activates them.","q2":"What is KairoX?","a2":"KairoX is EA Admin's more aggressive, momentum-focused automated trading EA with basket-level trade management, for MT5.","q3":"What is AG Prime?","a3":"AG Prime is EA Admin's advanced automated trading EA, built for adaptive trade management, basket handling, and configurable risk controls, for MT5.","q4":"Do the EAs work on MT4?","a4":"No. Both KairoX and AG Prime are built for MetaTrader 5 only.","q5":"What does lifetime access mean?","a5":"A one-time payment with no recurring monthly or yearly fees for as long as the license remains valid and in good standing.","q6":"Do I receive MQL5 source code?","a6":"No. We provide the compiled EA files (.ex5) and a license key — we do not sell or distribute MQL5 source code.","q7":"What does unlimited MT5 accounts mean?","a7":"One lifetime purchase lets you register and use the EA on unlimited eligible MT5 accounts, subject to license activation, verification, and the applicable license rules for each account.","q8":"How can I get free access?","a8":"Register a live account through our official Vantage referral link, verify and fund it, then submit your MT5 account number for review — see the Free Access section above.","q9":"What if I already registered with another IB?","a9":"Contact Vantage support and request a client transfer to EA Admin using the message template in the Free Access section. Transfers are subject to Vantage's approval.","q10":"How is the license activated?","a10":"You submit your MT5 account number and registered name through Telegram or WhatsApp. EA Admin reviews the details and activates a key tied to that account.","q11":"Can I share the EA?","a11":"No. License keys and EA files are for your own use and must not be shared or redistributed.","q12":"Do I need a Cent Account?","a12":"Yes, we recommend all users use Cent Accounts to have huge room for unexpected market conditions likely to occur. Users can use Standard Accounts if they have $10,000 &amp; above.","q13":"Is profit guaranteed?","a13":"No. No EA, including KairoX or AG Prime, guarantees profit. Trading involves substantial risk.","q14":"What are the risks?","a14":"Trading forex, gold, crypto, and other instruments can result in the loss of capital. Only trade with funds you can afford to lose — see the full Risk Disclaimer below.","q15":"Do I need a VPS?","a15":"Not required, but recommended. MT5 needs to stay open and connected for the EA to keep working — a VPS keeps it running continuously.","q16":"The EA isn't trading — what do I check?","a16":"See Section 17 of the Installation Guide above — Algo Trading, chart/timeframe, set file, license status, WebRequest URL, and the Experts/Journal tabs.","riskT":"Risk Disclaimer.","riskP":"Trading foreign exchange, gold, crypto, indices, and other financial instruments involves substantial risk and may result in the loss of capital. EA Admin products are software tools and do not guarantee profits, income, or account growth. Past performance, examples, screenshots, or demonstrations do not guarantee future results. Users are responsible for their account settings, broker conditions, risk management, and trading decisions. Only trade with funds you can afford to lose.","footAbout":"Automated MT5 Expert Advisors — KairoX and AG Prime. Built and supported by MADSON EA Admin.","footProd":"Products","footFree":"Free Access","footSupport":"Support","footInstall":"Installation","footRisk":"Risk Disclaimer","footContact":"Contact","footRights":"All rights reserved","popTitle":"Welcome to EA Admin","popP":"EA Admin builds automated MT5 Expert Advisors — KairoX and AG Prime. Here's what you can do:","popL1":"Buy lifetime, unlimited-account access to either EA — one-time payment, no subscription","popL2":"Apply for Free Access through our official Vantage registration","popL3":"Both EAs are MT5 only, with account-specific license activation","popRisk":"Trading involves risk. Nothing here guarantees profit.","popBtn":"Explore EA Admin"}
+};
 
-/* theme (shared logic/key with the license portal) */
-function applyTheme(t){
-  const moon=document.getElementById("iconMoon"), sun=document.getElementById("iconSun");
-  if(t==="light"){document.documentElement.classList.add("light");moon.style.display="none";sun.style.display="";}
-  else{document.documentElement.classList.remove("light");moon.style.display="";sun.style.display="none";}
-}
-function toggleTheme(){
-  const now=document.documentElement.classList.contains("light")?"light":"dark";
-  const next=now==="light"?"dark":"light";
-  try{localStorage.setItem("agp_theme",next);}catch(e){}
-  applyTheme(next);
-}
-(function(){
-  let saved="dark";
-  try{saved=localStorage.getItem("agp_theme")||"dark";}catch(e){}
-  applyTheme(saved);
-})();
+var currentLangCode = "en";
 
-/* copy IB message */
-function copyIB(){
-  const txt=document.getElementById("ibMsg").innerText;
-  const btn=document.getElementById("copyBtn");
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(txt).then(()=>{
-      const old=btn.textContent; btn.textContent="Copied!";
-      setTimeout(()=>{btn.textContent=old;},1800);
-    }).catch(()=>{fallbackCopy(txt,btn);});
-  } else { fallbackCopy(txt,btn); }
-}
-function fallbackCopy(txt,btn){
-  const ta=document.createElement("textarea");
-  ta.value=txt; ta.style.position="fixed"; ta.style.opacity="0";
-  document.body.appendChild(ta); ta.focus(); ta.select();
-  try{document.execCommand("copy");
-    const old=btn.textContent; btn.textContent="Copied!";
-    setTimeout(()=>{btn.textContent=old;},1800);
-  }catch(e){ alert("Please select and copy the message manually."); }
-  document.body.removeChild(ta);
-}
-
-/* FAQ data + accordion */
-const FAQ=[
-  ["What is EA Admin?","EA Admin is the brand behind two automated MT5 Expert Advisors, KairoX and AG Prime, plus the license system that activates them."],
-  ["What is KairoX?","KairoX is EA Admin's more aggressive automated trading EA — momentum-focused execution with basket-level trade management, for MT5."],
-  ["What is AG Prime?","AG Prime is EA Admin's advanced automated trading EA, built for adaptive trade management, basket handling, and configurable risk controls, for MT5."],
-  ["Do the EAs work on MT4?","No. Both KairoX and AG Prime are built for MetaTrader 5 only."],
-  ["Do the EAs work on MT5?","Yes — MT5 is the only supported platform for both products."],
-  ["What does lifetime access mean?","A one-time payment with no recurring monthly or yearly fees for as long as the license remains valid and in good standing."],
-  ["What does unlimited MT5 accounts mean?","One lifetime purchase lets you register and use the EA on unlimited eligible MT5 accounts, subject to license activation, verification, and the applicable license rules for each account."],
-  ["How much is KairoX?","KairoX is $150, one-time, lifetime license."],
-  ["How much is AG Prime?","AG Prime is $350, one-time, lifetime license."],
-  ["How can I get free access?","Register a live account through our official Vantage referral link, verify and fund it, then submit your MT5 account number for review — see the Free Access section above."],
-  ["What if I already registered with another IB?","Contact Vantage support and request a client transfer to EA Admin using the message template in the Free Access section. Transfers are subject to Vantage's approval."],
-  ["Do I need a Cent Account?","For Free Access, yes — you'll create a Cent Account for MT5 as part of the Vantage account setup."],
-  ["Do I need a VPS?","Not required, but recommended. MT5 needs to stay open and connected for the EA to keep working — a VPS keeps it running continuously."],
-  ["Do I receive MQL5 source code?","No. We provide the compiled EA files (.ex5) and a license key — we do not sell or distribute MQL5 source code."],
-  ["How is the license activated?","You submit your MT5 account number and registered name through the license portal or our Telegram contact. EA Admin reviews the details and activates a key tied to that account."],
-  ["Can I share the EA?","No. License keys and EA files are for your own use and must not be shared or redistributed."],
-  ["Is profit guaranteed?","No. No EA, including KairoX or AG Prime, guarantees profit. Trading involves substantial risk."],
-  ["What are the risks?","Trading forex, gold, crypto, and other instruments can result in the loss of capital. Only trade with funds you can afford to lose — see the full Risk Disclaimer above."]
-];
-function buildFaq(){
-  const box=document.getElementById("faqlist");
-  FAQ.forEach(([q,a],i)=>{
-    const item=document.createElement("div"); item.className="qitem";
-    item.innerHTML='<button class="qhead" onclick="toggleFaq('+i+')">'+q+
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>'+
-      '<div class="qbody"><p>'+a+'</p></div>';
-    box.appendChild(item);
+function buildLangList(filter){
+  var box = document.getElementById("langList");
+  box.innerHTML = "";
+  Object.keys(I18N).forEach(function(code){
+    var name = I18N[code].name;
+    if (filter && name.toLowerCase().indexOf(filter.toLowerCase()) === -1) return;
+    var d = document.createElement("div");
+    d.className = "lang-opt" + (code === currentLangCode ? " sel" : "");
+    d.textContent = name;
+    d.onclick = function(){ setLang(code); };
+    box.appendChild(d);
   });
 }
-function toggleFaq(i){
-  document.getElementById("faqlist").children[i].classList.toggle("open");
+function toggleLang(){
+  var m = document.getElementById("langMenu");
+  if (m.classList.contains("show")) { m.classList.remove("show"); return; }
+  buildLangList("");
+  m.classList.add("show");
 }
-buildFaq();
+function filterLang(v){ buildLangList(v); }
+document.addEventListener("click", function(e){
+  var w = document.querySelector(".lang-wrap");
+  if (w && !w.contains(e.target)) document.getElementById("langMenu").classList.remove("show");
+});
 
-/* welcome popup — shows once per browser */
-(function(){
-  let seen=false;
-  try{seen=localStorage.getItem("eaadmin_welcome_seen");}catch(e){}
-  if(!seen){
-    setTimeout(()=>{document.getElementById("popScrim").classList.add("show");},600);
+function setLang(code){
+  var dict = I18N[code];
+  if (!dict) return;
+  currentLangCode = code;
+  document.getElementById("langCurrent").textContent = dict.name;
+  document.querySelectorAll("[data-i18n]").forEach(function(el){
+    var key = el.getAttribute("data-i18n");
+    if (dict[key] !== undefined) el.innerHTML = dict[key];
+    // else: leave existing content in place (graceful fallback to English)
+  });
+  document.getElementById("langMenu").classList.remove("show");
+}
+buildLangList();
+
+/* ============================================================
+   PURCHASE MODAL
+   ============================================================ */
+var PRODUCTS = {
+  kairox:  { name: "KairoX",   price: 150, cls: "btn-cyan" },
+  agprime: { name: "AG Prime", price: 350, cls: "btn-gold" }
+};
+var ADDRESSES = {
+  trc20: { label: "USDT — TRC20 (TRON)",   addr: "THS82ch7XqJwDc1nhnmnAG8jnwBd78xity" },
+  bep20: { label: "USDT — BEP20 (BSC)",     addr: "0x88a75d88c5f457c9d4c733744d1777590e74604f" },
+  btc:   { label: "Bitcoin — BTC",          addr: "13F7X1UPQbNr4n8Q1k2kVMwVFQd5Wc3RYD" }
+};
+var currentProduct = "kairox";
+
+function openPurchase(product){
+  currentProduct = product;
+  var p = PRODUCTS[product];
+  document.getElementById("pmTitle").textContent = "Purchasing " + p.name;
+  document.getElementById("pmAmount").textContent = "$" + p.price + " USDT";
+  setNetwork("trc20", document.querySelector(".net-tab"));
+  document.getElementById("purchaseModal").classList.add("show");
+}
+function closePurchase(){
+  document.getElementById("purchaseModal").classList.remove("show");
+}
+function setNetwork(net, btn){
+  document.querySelectorAll(".net-tab").forEach(function(t){ t.classList.remove("active"); });
+  if (btn) btn.classList.add("active");
+  var a = ADDRESSES[net];
+  document.getElementById("netLabel").textContent = a.label;
+  document.getElementById("addrText").textContent = a.addr;
+}
+function copyAddr(){
+  var txt = document.getElementById("addrText").textContent;
+  copyToClipboard(txt, null);
+}
+
+/* ============================================================
+   COPY HELPERS
+   ============================================================ */
+function copyToClipboard(txt, btn, restoreLabel){
+  function done(){
+    if (btn) {
+      var old = btn.textContent;
+      btn.textContent = "Copied!";
+      setTimeout(function(){ btn.textContent = restoreLabel || old; }, 1800);
+    }
   }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(done).catch(function(){ fallbackCopy(txt, done); });
+  } else {
+    fallbackCopy(txt, done);
+  }
+}
+function fallbackCopy(txt, cb){
+  var ta = document.createElement("textarea");
+  ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0";
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try { document.execCommand("copy"); if (cb) cb(); }
+  catch(e) { alert("Please select and copy manually."); }
+  document.body.removeChild(ta);
+}
+function copyIB(){
+  var txt = document.getElementById("ibMsg").innerText;
+  copyToClipboard(txt, document.getElementById("copyBtn"), "Copy Message");
+}
+function copyURL(){
+  copyToClipboard("https://ea-adminlicense.xyz", document.getElementById("urlCopyBtn"), "Copy");
+}
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+function faqTab(i, el){
+  document.querySelectorAll(".faq-tab").forEach(function(t){ t.classList.remove("active"); });
+  el.classList.add("active");
+  document.querySelectorAll(".faq-grp").forEach(function(g){ g.classList.remove("active"); });
+  document.querySelector('.faq-grp[data-grp="' + i + '"]').classList.add("active");
+}
+function faqToggle(q){
+  var item = q.parentElement;
+  var a = q.nextElementSibling;
+  if (item.classList.contains("open")) { item.classList.remove("open"); a.style.maxHeight = null; }
+  else { item.classList.add("open"); a.style.maxHeight = a.scrollHeight + "px"; }
+}
+
+/* ============================================================
+   WELCOME POPUP — shows once per browser
+   ============================================================ */
+(function(){
+  var seen = false;
+  try { seen = localStorage.getItem("eaadmin_welcome_seen"); } catch(e) {}
+  if (!seen) setTimeout(function(){ document.getElementById("popScrim").classList.add("show"); }, 700);
 })();
 function closePopup(){
   document.getElementById("popScrim").classList.remove("show");
-  try{localStorage.setItem("eaadmin_welcome_seen","1");}catch(e){}
+  try { localStorage.setItem("eaadmin_welcome_seen", "1"); } catch(e) {}
 }
+
+/* ============================================================
+   SMOOTH SCROLL-REVEAL — sections fade and slide up as they enter view
+   ============================================================ */
+(function(){
+  var els = document.querySelectorAll(".reveal");
+  if (!("IntersectionObserver" in window)) {
+    els.forEach(function(e){ e.classList.add("in"); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+    });
+  }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+  els.forEach(function(e){ io.observe(e); });
+})();
 </script>
 </body>
 </html>
